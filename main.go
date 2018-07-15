@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "github.com/jicg/liteblog/routers"
+	_ "github.com/jicg/liteblog/models"
 	"github.com/astaxie/beego"
 )
 
