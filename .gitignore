@@ -10,3 +10,9 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+.idea
+data
+liteblog
+tests
+routers/commentsRouter_*
+lastupdate.tmp
