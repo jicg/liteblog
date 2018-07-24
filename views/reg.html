@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闲言轻博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{{template "comm/link.html"}}
+    <style>
+        .layui-form-label {
+            width: 60px;
+            padding: 9px 15px 9px 0px;
+        }
+
+        .layui-input-block {
+            margin-left: 80px;
+        }
+
+        @media screen and (max-width: 450px) {
+            .layui-form-item .layui-input-inline {
+                margin: 0 0 10px 80px;
+            }
+        }
+
+    </style>
+</head>
+<body class="lay-blog">
+{{template "comm/header.html".}}
+<div class="container-wrap">
+    <div class="container">
+        <div class="contar-wrap">
+            <div class="item">
+                <div class="item-box">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">昵称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="name" required lay-verify="required"
+                                       placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="email" required lay-verify="required"
+                                       placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="password" required lay-verify="required"
+                                       placeholder="请输入密码"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">确认密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password2" name="password2" required lay-verify="required"
+                                       placeholder="请输入密码"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="reg">注册</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{template "comm/footer.html" .}}
+<script>
+    layui.use(['form', 'jquery', 'layer', 'sysn'], function () {
+        var form = layui.form,
+                sysn = layui.sysn,
+                $ = layui.jquery,
+                layer = layui.layer;
+        //监听提交
+        form.on('submit(reg)', function (fromdata) {
+            sysn.post("/reg", fromdata.field)
+            // .setTimeout(5000)
+                    .success(function (data) {
+                        layer.msg(data.msg);
+                        if (data.action) {
+                            setTimeout(function () {
+                                window.location.href = data.action;
+                            }, 300)
+                        }
+                    }).run();
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

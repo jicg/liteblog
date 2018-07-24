@@ -1,7 +1,5 @@
 package controllers
 
-import (
-)
 
 type IndexController struct {
 	BaseController
@@ -9,9 +7,17 @@ type IndexController struct {
 
 // @router / [get]
 func (c *IndexController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
 	c.TplName = "index.html"
+}
+
+// @router /user [get]
+func (c *IndexController) GetUser() {
+	c.TplName = "user.html"
+}
+
+// @router /reg [get]
+func (c *IndexController) GetReg() {
+	c.TplName = "reg.html"
 }
 
 
