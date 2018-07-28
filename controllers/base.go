@@ -43,13 +43,14 @@ func (ctx *BaseController) MustLogin() {
 	}
 }
 
-func (c *UserController) GetMustString(key string, msg string) string {
+func (c *BaseController) GetMustString(key string, msg string) string {
 	email := c.GetString(key, "")
 	if len(email) == 0 {
 		c.Abort500(errors.New(msg))
 	}
 	return email
 }
+
 
 func (ctx *BaseController) Abort500(err error) {
 	ctx.Data["error"] = err

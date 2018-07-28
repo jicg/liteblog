@@ -11,7 +11,14 @@ func init() {
 		&controllers.IndexController{},
 		&controllers.UserController{},
 	)
-	//beego.Router("/", &controllers.MainController{})
-	//beego.Router("/about", &controllers.MainController{})
-	//beego.Router("/message", &controllers.MainController{})
+	beego.AddNamespace(
+		beego.NewNamespace(
+			"note",
+			beego.NSInclude(&controllers.NoteController{}),
+		),
+		beego.NewNamespace(
+			"froala",
+			beego.NSInclude(&controllers.FroalaController{}),
+		),
+	)
 }

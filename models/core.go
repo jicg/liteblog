@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"os"
+	"github.com/astaxie/beego/logs"
 )
 
 var (
@@ -21,6 +22,8 @@ func init() {
 		panic("failed to connect database")
 	}
 	// 自动同步表结构
+	db.SetLogger(logs.GetLogger("orm"))
+	db.LogMode(true)
 	db.AutoMigrate(&User{}, &Note{}, &Message{})
 	// Model(&User{})查询用户表, Count(&count) 将用户表的数据赋值给count字段。
 	var count int

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闲言轻博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+{{template "comm/link.html"}}
+
+    <!-- Include external CSS. -->
+    <link href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/codemirror/5.25.0/codemirror.min.css">
+    <!-- Include Editor style. -->
+    <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_editor.pkgd.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .lay-blog ul.pop-nav {
+            z-index: 5;
+        }
+
+        .container {
+            margin: 0 auto !important;
+        }
+    </style>
+
+</head>
+<body class="lay-blog">
+{{template "comm/header.html".}}
+<div class="container-wrap">
+    <div class="container">
+        <div class="contar-wrap">
+            <form class="layui-form layui-form-pane" action="">
+                <input id="pid" type="hidden" value="123">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required=""
+                               lay-verify="required" placeholder="请输入标题"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">内容</label>
+                    <div class="layui-input-block">
+                        <div id="edit"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" lay-submit=""
+                            lay-filter="save">提交
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+{{template "comm/footer.html" .}}
+<!-- Include external JS libs. -->
+<script type="text/javascript" src="https://cdn.bootcss.com/codemirror/5.25.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+
+<!-- Include Editor JS files. -->
+<script type="text/javascript" src="https://cdn.bootcss.com/froala-editor/2.8.1/js/froala_editor.pkgd.min.js"></script>
+<script src="https://cdn.bootcss.com/froala-editor/2.8.1/js/languages/zh_cn.js"></script>
+<script>
+
+    layui.use(['form', 'jquery', 'layer', 'sysn'], function () {
+        var form = layui.form,
+                sysn = layui.sysn,
+                $ = layui.jquery,
+                layer = layui.layer;
+        $("#edit").froalaEditor({
+            language: 'zh_cn',
+            height: 200,
+            imageUploadURL: '/froala/uploadimg',
+            videoUploadURL: '/froala/uploadvideo',
+            fileUploadURL: '/froala/uploadfile'
+        });
+        $("#edit").on('froalaEditor.file.unlink', function (e, editor, file) {
+            console.log(file);
+            console.log(file.getAttribute('href'));
+        });
+        //监听提交
+        form.on('submit(save)', function (fromdata) {
+            var fdata = fromdata.field;
+            fdata.content = $("#edit").froalaEditor('html.get');
+            sysn.post("/note/save/{{.key}}", fdata)
+                    .success(function (data) {
+                        layer.msg(data.msg);
+                        // if (data.action) {
+                        //     setTimeout(function () {
+                        //         window.location.href = data.action;
+                        //     }, 300)
+                        // }
+                    }).run();
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
