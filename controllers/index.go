@@ -24,6 +24,7 @@ func (c *IndexController) GetDetail() {
 	if err != nil {
 		c.Abort500(syserrors.NewError("文章不存在", err))
 	}
+	go models.AllVisitCount(key)
 	c.Data["note"] = note
 	c.TplName = "details.html"
 }
@@ -35,6 +36,7 @@ func (c *IndexController) GetComment() {
 	if err != nil {
 		c.Abort500(syserrors.NewError("文章不存在", err))
 	}
+
 	c.Data["note"] = note
 	c.TplName = "comment.html"
 }

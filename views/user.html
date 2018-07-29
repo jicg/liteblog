@@ -76,6 +76,7 @@
     </div>
 </div>
 {{template "comm/footer.html" .}}
+{{if not .IsLogin}}
 <script>
     layui.use(['form', 'jquery', 'layer', 'sysn'], function () {
         var form = layui.form,
@@ -98,5 +99,6 @@
         });
     });
 </script>
+{{end}}
 </body>
 </html>

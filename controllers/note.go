@@ -23,14 +23,12 @@ func (ctx *NoteController) NestPrepare() {
 
 // @router /new [get]
 func (ctx *NoteController) NewPage() {
-
 	ctx.Data["key"] = uuid.NewUUID().String()
 	ctx.TplName = "note_new.html"
 }
 
 // @router /edit/:key [get]
 func (ctx *NoteController) EditPage() {
-
 	key := ctx.Ctx.Input.Param(":key")
 	note, err := models.QueryNoteByKey(key)
 	if err != nil {
@@ -39,6 +37,15 @@ func (ctx *NoteController) EditPage() {
 	ctx.Data["note"] = note
 	ctx.Data["key"] = key
 	ctx.TplName = "note_new.html"
+}
+
+// @router /del/:key [post]
+func (ctx *NoteController) Del() {
+	key := ctx.Ctx.Input.Param(":key")
+	if err := models.DelNoteByKey(key, int(ctx.User.ID)); err != nil {
+		ctx.Abort500(syserrors.NewError("删除失败", err))
+	}
+	ctx.JSONOk("删除成功！", "/")
 }
 
 // @router /save/:key [post]

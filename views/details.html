@@ -22,10 +22,10 @@
 
                 {{/*<img src="../res/static/images/item.png" alt="">*/}}
                     <div class="count layui-clear">
-                        <span class="pull-left">阅读 <em>100000+</em></span>
+                        <span class="pull-left">阅读 <em>{{.note.Visit}}</em></span>
                         <span class="pull-right like">
                             <i class="layui-icon layui-icon-praise"></i>
-                            <em>999</em>
+                            <em>999praise</em>
                         </span>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
             </div>
             <div id="LAY-msg-box">
                 <div class="info-item">
-                    <img class="info-img" src="../res/static/images/info-img.png" alt="">
+                    <img class="info-img" src="/static/images/info-img.png" alt="">
                     <div class="info-text">
                         <p class="title count">
                             <span class="name">一片空白</span>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="info-item">
-                    <img class="info-img" src="../res/static/images/info-img.png" alt="">
+                    <img class="info-img" src="/static/images/info-img.png" alt="">
                     <div class="info-text">
                         <p class="title count">
                             <span class="name">一片空白</span>
@@ -64,18 +64,40 @@
 </div>
 {{template "comm/footer.html"}}
 <script>
-    layui.use('util', function () {
-        var util = layui.util;
+    layui.use(['form', 'jquery', 'layer', 'sysn', 'util'], function () {
+        var form = layui.form,
+                sysn = layui.sysn,
+                $ = layui.jquery,
+                layer = layui.layer,
+                util = layui.util;
         //执行
         var option = {};
     {{if and .IsLogin (eq2 .User.ID .note.UserID) }}
         option = {
             bar1: '&#xe642;',
+            bar2: '&#xe640;',
             click: function (type) {
                 if (type === 'bar1') {
                     window.location.href = "/note/edit/{{.note.Key}}";
+                } else if (type === 'bar2') {
+                    layer.confirm('您确定要删除当前文章？', {
+                        btn: ['确定', '取消'] //按钮
+                    }, function () {
+                        sysn.post("/note/del/{{.note.Key}}")
+                                .success(function (data) {
+                                    layer.msg(data.msg);
+                                    if (data.action) {
+                                        setTimeout(function () {
+                                            window.location.href = data.action;
+                                        }, 300)
+                                    }
+                                }).run();
+                    }, function () {
+                    });
+
                 }
             }
+
         };
     {{else if not .IsLogin}}
         option = {
@@ -88,7 +110,11 @@
         };
     {{end}}
         util.fixbar(option);
+        $(".container-wrap .count .like").on('click', function () {
+            alert("sssss");
+        });
     });
+
 </script>
 </body>
 </html>
