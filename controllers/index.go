@@ -11,9 +11,25 @@ type IndexController struct {
 
 // @router / [get]
 func (c *IndexController) Get() {
-	if ns, _ := models.QueryNotesBy(0, 10); ns != nil {
+	limit := 10;
+	page, err := c.GetInt("page", 1)
+	if err != nil || page < 1 {
+		page = 1;
+	}
+	title := c.GetString("title", "")
+	if ns, _ := models.QueryNotesByPage(page, limit, title); ns != nil {
 		c.Data["notes"] = ns
 	}
+	var totpage int = 0;
+	totcnt, _ := models.QueryNotesCount(title)
+	if totcnt%limit == 0 {
+		totpage = totcnt / limit
+	} else {
+		totpage = totcnt/limit + 1
+	}
+	c.Data["totpage"] = totpage
+	c.Data["page"] = page
+	c.Data["title"] = title
 	c.TplName = "index.html"
 }
 

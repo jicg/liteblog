@@ -56,12 +56,12 @@ func (ctx *NoteController) Save() {
 
 	summary, _ := getSummary(content)
 	note, err := models.QueryNoteByKeyAndUserId(key, int(ctx.User.ID))
-	var n *models.Note
+	var n models.Note
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {
 			ctx.Abort500(syserrors.NewError("保存失败！", err))
 		}
-		n = &models.Note{
+		n = models.Note{
 			Key:     key,
 			Summary: summary,
 			Title:   title,
@@ -75,7 +75,7 @@ func (ctx *NoteController) Save() {
 		n.Summary = summary
 		n.UpdatedAt = time.Now()
 	}
-	if err := models.SaveNote(n); err != nil {
+	if err := models.SaveNote(&n); err != nil {
 		ctx.Abort500(syserrors.NewError("保存失败！", err))
 	}
 	ctx.JSONOk("成功")

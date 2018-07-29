@@ -1,6 +1,9 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+	"fmt"
+)
 
 type Note struct {
 	gorm.Model
@@ -20,18 +23,17 @@ type Message struct {
 	User    User
 	NoteID  int
 	Note    Note
-	Praise  int
+	NoteKey string `sql:"index"`
 	Content string
+	Praise  int    `gorm:"default:0"`
 }
 
-func QueryNoteByKeyAndUserId(key string, userid int) (*Note, error) {
-	var note Note
-	return &note, db.Model(&Note{}).Where("key = ? and user_id = ?", key, userid).Take(&note).Error
+func QueryNoteByKeyAndUserId(key string, userid int) (note Note, err error) {
+	return note, db.Model(&Note{}).Where("key = ? and user_id = ?", key, userid).Take(&note).Error
 }
 
-func QueryNoteByKey(key string) (*Note, error) {
-	var note Note
-	return &note, db.Model(&Note{}).Where("key = ? ", key).Take(&note).Error
+func QueryNoteByKey(key string) (note Note, err error) {
+	return note, db.Model(&Note{}).Where("key = ? ", key).Take(&note).Error
 }
 
 func AllVisitCount(key string) error {
@@ -41,9 +43,11 @@ func AllVisitCount(key string) error {
 func DelNoteByKey(key string, userid int) (error) {
 	return db.Delete(Note{}, "key = ? and user_id = ? ", key, userid).Error
 }
-func QueryNotesBy(page, limit int) ([]*Note, error) {
-	var note []*Note
-	return note, db.Model(&Note{}).Offset(page * limit).Limit(limit).Order("updated_at DESC").Find(&note).Error
+func QueryNotesByPage(page, limit int, title string) (note []*Note, err error) {
+	return note, db.Model(&Note{}).Where("title like ?", fmt.Sprintf("%%%s%%", title)).Offset((page - 1)*limit).Limit(limit).Order("updated_at DESC").Find(&note).Error
+}
+func QueryNotesCount(title string) (cnt int, err error) {
+	return cnt, db.Model(&Note{}).Where("title like ?", fmt.Sprintf("%%%s%%", title)).Offset(-1).Limit(-1).Count(&cnt).Error
 }
 
 func SaveNote(n *Note) error {

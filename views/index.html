@@ -31,14 +31,22 @@
         {{end}}
         </div>
         <div class="item-btn">
-            <button class="layui-btn layui-btn-normal">下一页</button>
+        {{if gt .page 1}}
+            <button id="prePageBtn" class="layui-btn layui-btn-normal">上一页
+            </button>
+        {{end}}
+        {{if lt .page .totpage}}
+            <button id="nextPageBtn" class="layui-btn layui-btn-normal">下一页
+            </button>
+        {{end}}
         </div>
     </div>
 </div>
 {{template "comm/footer.html" .}}
 <script>
-    layui.use('util', function () {
-        var util = layui.util;
+    layui.use(['jquery', 'util'], function () {
+        var util = layui.util,
+                $ = layui.jquery;
         //执行
         var option = {};
     {{if and (.IsLogin)  (eq2 .User.Role 0) }}
@@ -66,6 +74,22 @@
         };
     {{end}}
         util.fixbar(option);
+        $("#nextPageBtn").on("click", function () {
+            var nextpage = {{.page}}+1;
+            if (nextpage >{{.totpage}}) {
+                layer.msg("没有下一页", {icon: 5})
+            } else {
+                window.location.href = "/?page=" + nextpage + "&title={{.title}}"
+            }
+        });
+        $("#prePageBtn").on("click", function () {
+            var nextpage = {{.page}}-1;
+            if (nextpage <= 0) {
+                layer.msg("没有上一页", {icon: 5})
+                return;
+            }
+            window.location.href = "/?page=" + nextpage + "&title={{.title}}"
+        });
     });
 </script>
 </body>
