@@ -9,6 +9,7 @@ import (
 	"github.com/jicg/liteblog/models"
 	"os"
 	"github.com/astaxie/beego/logs"
+	"fmt"
 )
 
 func main() {
@@ -39,6 +40,11 @@ func initTemplate() {
 	beego.AddFuncMap("equrl", func(x, y string) bool {
 		s1 := strings.Trim(x, "/")
 		s2 := strings.Trim(y, "/")
+		return strings.Compare(s1, s2) == 0
+	})
+	beego.AddFuncMap("eq2", func(x, y interface{}) bool {
+		s1 := fmt.Sprintf("%v", x)
+		s2 := fmt.Sprintf("%v", y)
 		return strings.Compare(s1, s2) == 0
 	})
 

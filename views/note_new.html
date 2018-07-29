@@ -32,11 +32,11 @@
     <div class="container">
         <div class="contar-wrap">
             <form class="layui-form layui-form-pane" action="">
-                <input id="pid" type="hidden" value="123">
                 <div class="layui-form-item">
                     <label class="layui-form-label">标题</label>
                     <div class="layui-input-block">
                         <input type="text" name="title" required=""
+                               value="{{.note.Title}}"
                                lay-verify="required" placeholder="请输入标题"
                                autocomplete="off" class="layui-input">
                     </div>
@@ -45,7 +45,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">内容</label>
                     <div class="layui-input-block">
-                        <div id="edit"></div>
+                        <div id="edit">{{if .note }}{{str2html .note.Content}}{{end}}</div>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -91,11 +91,11 @@
             sysn.post("/note/save/{{.key}}", fdata)
                     .success(function (data) {
                         layer.msg(data.msg);
-                        // if (data.action) {
-                        //     setTimeout(function () {
-                        //         window.location.href = data.action;
-                        //     }, 300)
-                        // }
+                        if (data.action) {
+                            setTimeout(function () {
+                                window.location.href = data.action;
+                            }, 300)
+                        }
                     }).run();
             return false;
         });

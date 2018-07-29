@@ -33,11 +33,13 @@
                 {{.User.Name}},您已经登陆,是否<a href="/logout"><span>登出</span></a>？
                 </p>
             </h4>
+        {{if eq .User.Role 0}}
             <h4 class="item-title">
                 <p><i class="layui-icon layui-icon-set"></i>
                     <a href="/note/new"><span>新增文章</span></a>
                 </p>
             </h4>
+        {{end}}
         {{else}}
             <div class="item">
                 <div class="item-box">

@@ -36,5 +36,37 @@
     </div>
 </div>
 {{template "comm/footer.html" .}}
+<script>
+    layui.use('util', function () {
+        var util = layui.util;
+        //执行
+        var option = {};
+    {{if and (.IsLogin)  (eq2 .User.Role 0) }}
+        option = {
+            bar1: '&#xe654;',
+            click: function (type) {
+                console.log(type);
+                if (type === 'bar1') {
+                {{if .IsLogin }}
+                    window.location.href = "/note/new";
+                {{else}}
+                    window.location.href = "/user";
+                {{end}}
+                }
+            }
+        };
+    {{else if not .IsLogin}}
+        option = {
+            bar1: '&#xe770;',
+            click: function (type) {
+                if (type === 'bar1') {
+                    window.location.href = "/user";
+                }
+            }
+        };
+    {{end}}
+        util.fixbar(option);
+    });
+</script>
 </body>
 </html>

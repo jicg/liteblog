@@ -14,16 +14,35 @@ type NoteController struct {
 	BaseController
 }
 
+func (ctx *NoteController) NestPrepare() {
+	ctx.MustLogin()
+	if ctx.User.Role != 0 {
+		ctx.Abort500(syserrors.NewError("您没有权限修改文章", nil))
+	}
+}
+
 // @router /new [get]
 func (ctx *NoteController) NewPage() {
-	ctx.MustLogin()
+
 	ctx.Data["key"] = uuid.NewUUID().String()
+	ctx.TplName = "note_new.html"
+}
+
+// @router /edit/:key [get]
+func (ctx *NoteController) EditPage() {
+
+	key := ctx.Ctx.Input.Param(":key")
+	note, err := models.QueryNoteByKey(key)
+	if err != nil {
+		ctx.Abort500(syserrors.NewError("文章不存在", err))
+	}
+	ctx.Data["note"] = note
+	ctx.Data["key"] = key
 	ctx.TplName = "note_new.html"
 }
 
 // @router /save/:key [post]
 func (ctx *NoteController) Save() {
-	ctx.MustLogin()
 	key := ctx.Ctx.Input.Param(":key")
 	title := ctx.GetMustString("title", "标题不能为空！")
 	content := ctx.GetMustString("content", "内容不能为空！")
