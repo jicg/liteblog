@@ -10,14 +10,16 @@
             <div class="layui-form-item blog-sewrap">
                 <div class="layui-input-block blog-sebox">
                     <i class="layui-icon layui-icon-search"></i>
-                    <input type="text" name="title" lay-verify="title" autocomplete="off"  value="{{.title}}" class="layui-input">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" value="{{.title}}"
+                           class="layui-input">
                 </div>
             </div>
         </form>
         <div class="blog-nav pull-right">
             <ul class="layui-nav pull-left">
-                <li class="layui-nav-item {{if equrl "/" .Path }}layui-this{{end}}"><a href="/" >首页</a></li>
-                <li class="layui-nav-item {{if equrl "/message" .Path }}layui-this{{end}}"><a href="/message">留言</a></li>
+                <li class="layui-nav-item {{if equrl "/" .Path }}layui-this{{end}}"><a href="/">首页</a></li>
+                <li class="layui-nav-item {{if equrl "/message" .Path }}layui-this{{end}}"><a href="/message">留言</a>
+                </li>
                 <li class="layui-nav-item {{if equrl "/about" .Path }}layui-this{{end}} "><a href="/about">关于</a></li>
             </ul>
         {{/*{{if .IsLogin}} # {{else}} /user {{end}}*/}}
@@ -36,5 +38,8 @@
         <li><a href="/">首页</a></li>
         <li><a href="/message">留言</a></li>
         <li><a href="/about">关于</a></li>
+        <li><a href="/user"><i class="layui-icon {{if .IsLogin}}  {{else}} layui-icon-username {{end}} "
+                               style="font-size: 20px;font-style: normal;font-weight:bold;">{{if .User.Name}}{{.User.Name}}{{else}}
+            登陆{{end}}</i></a></li>
     </ul>
 </div>

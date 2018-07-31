@@ -31,7 +31,7 @@ func (ctx *PraiseController) Parse() {
 			ctx.Abort500(syserrors.NewError("点赞失败", err))
 		}
 		message.Praise = message.Praise + 1
-		if err := ctx.Dao.SaveMessage(&message); err != nil {
+		if err := ctx.Dao.UpdateMessage4Praise(&message); err != nil {
 			ctx.Dao.Rollback()
 			ctx.Abort500(syserrors.NewError("点赞失败", err))
 		}
@@ -43,7 +43,7 @@ func (ctx *PraiseController) Parse() {
 			ctx.Abort500(syserrors.NewError("点赞失败", err))
 		}
 		note.Praise = note.Praise + 1
-		if err := ctx.Dao.SaveNote(&note); err != nil {
+		if err := ctx.Dao.UpdateNote4Praise(&note); err != nil {
 			ctx.Dao.Rollback()
 			ctx.Abort500(syserrors.NewError("点赞失败", err))
 		}
