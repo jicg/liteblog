@@ -16,10 +16,12 @@ type BaseController struct {
 	beego.Controller
 	IsLogin bool
 	User    *models.User
+	Dao     *models.DB
 }
 
 func (ctx *BaseController) Prepare() {
 	ctx.Data["Path"] = ctx.Ctx.Request.RequestURI
+	ctx.Dao = models.NewDB()
 	// 验证用户是否登陆
 	ctx.IsLogin = false
 	tu := ctx.GetSession(SESSION_USER_KEY)
@@ -51,14 +53,12 @@ func (c *BaseController) GetMustString(key string, msg string) string {
 	return email
 }
 
-
 func (ctx *BaseController) Abort500(err error) {
 	ctx.Data["error"] = err
 	ctx.Abort("500")
 }
 
 type H map[string]interface{}
-
 
 type ResultJsonValue struct {
 	Code   int         `json:"code"`

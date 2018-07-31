@@ -30,7 +30,7 @@ func (ctx *NoteController) NewPage() {
 // @router /edit/:key [get]
 func (ctx *NoteController) EditPage() {
 	key := ctx.Ctx.Input.Param(":key")
-	note, err := models.QueryNoteByKey(key)
+	note, err := ctx.Dao.QueryNoteByKey(key)
 	if err != nil {
 		ctx.Abort500(syserrors.NewError("文章不存在", err))
 	}
@@ -42,7 +42,7 @@ func (ctx *NoteController) EditPage() {
 // @router /del/:key [post]
 func (ctx *NoteController) Del() {
 	key := ctx.Ctx.Input.Param(":key")
-	if err := models.DelNoteByKey(key, int(ctx.User.ID)); err != nil {
+	if err := ctx.Dao.DelNoteByKey(key, int(ctx.User.ID)); err != nil {
 		ctx.Abort500(syserrors.NewError("删除失败", err))
 	}
 	ctx.JSONOk("删除成功！", "/")
@@ -55,7 +55,7 @@ func (ctx *NoteController) Save() {
 	content := ctx.GetMustString("content", "内容不能为空！")
 
 	summary, _ := getSummary(content)
-	note, err := models.QueryNoteByKeyAndUserId(key, int(ctx.User.ID))
+	note, err := ctx.Dao.QueryNoteByKeyAndUserId(key, int(ctx.User.ID))
 	var n models.Note
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {
@@ -75,11 +75,13 @@ func (ctx *NoteController) Save() {
 		n.Summary = summary
 		n.UpdatedAt = time.Now()
 	}
-	if err := models.SaveNote(&n); err != nil {
+	if err := ctx.Dao.SaveNote(&n); err != nil {
 		ctx.Abort500(syserrors.NewError("保存失败！", err))
 	}
 	ctx.JSONOk("成功")
 }
+
+
 
 func getSummary(content string) (string, error) {
 	var buf bytes.Buffer

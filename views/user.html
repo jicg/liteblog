@@ -76,29 +76,5 @@
     </div>
 </div>
 {{template "comm/footer.html" .}}
-{{if not .IsLogin}}
-<script>
-    layui.use(['form', 'jquery', 'layer', 'sysn'], function () {
-        var form = layui.form,
-                sysn = layui.sysn,
-                $ = layui.jquery,
-                layer = layui.layer;
-        //监听提交
-        form.on('submit(login)', function (fromdata) {
-            sysn.post("/login", fromdata.field)
-            // .setTimeout(5000)
-                    .success(function (data) {
-                        layer.msg(data.msg);
-                        if (data.action) {
-                            setTimeout(function () {
-                                window.location.href = data.action;
-                            }, 300)
-                        }
-                    }).run();
-            return false;
-        });
-    });
-</script>
-{{end}}
 </body>
 </html>

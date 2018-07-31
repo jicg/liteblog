@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/jicg/liteblog/models"
 	"github.com/jicg/liteblog/syserrors"
+	"fmt"
 )
 
 type IndexController struct {
@@ -17,11 +17,11 @@ func (c *IndexController) Get() {
 		page = 1;
 	}
 	title := c.GetString("title", "")
-	if ns, _ := models.QueryNotesByPage(page, limit, title); ns != nil {
+	if ns, _ := c.Dao.QueryNotesByPage(page, limit, title); ns != nil {
 		c.Data["notes"] = ns
 	}
 	var totpage int = 0;
-	totcnt, _ := models.QueryNotesCount(title)
+	totcnt, _ := c.Dao.QueryNotesCount(title)
 	if totcnt%limit == 0 {
 		totpage = totcnt / limit
 	} else {
@@ -36,11 +36,18 @@ func (c *IndexController) Get() {
 // @router /details/:key [get]
 func (c *IndexController) GetDetail() {
 	key := c.Ctx.Input.Param(":key")
-	note, err := models.QueryNoteByKey(key)
+	note, err := c.Dao.QueryNoteByKey(key)
 	if err != nil {
 		c.Abort500(syserrors.NewError("文章不存在", err))
 	}
-	go models.AllVisitCount(key)
+	go c.Dao.AllVisitCount(key)
+	c.Data["praise"] = false
+	//praise, err := c.Dao.QueryPraiseLog(key, int(c.User.ID), "note")
+	//if err == nil {
+	//	c.Data["praise"] = praise.Flag
+	//}
+	messages, _ := c.Dao.QueryMessageForNote(note.Key)
+	c.Data["messages"] = messages
 	c.Data["note"] = note
 	c.TplName = "details.html"
 }
@@ -48,7 +55,7 @@ func (c *IndexController) GetDetail() {
 // @router /comment/:key [get]
 func (c *IndexController) GetComment() {
 	key := c.Ctx.Input.Param(":key")
-	note, err := models.QueryNoteByKey(key)
+	note, err := c.Dao.QueryNoteByKey(key)
 	if err != nil {
 		c.Abort500(syserrors.NewError("文章不存在", err))
 	}
@@ -69,6 +76,12 @@ func (c *IndexController) GetReg() {
 
 // @router /message [get]
 func (c *IndexController) GetMessage() {
+	messages, err := c.Dao.QueryMessageForNote("")
+	if err != nil {
+		c.Abort500(err)
+	}
+	fmt.Printf("%v \n", messages)
+	c.Data["messages"] = messages
 	c.TplName = "message.html"
 }
 

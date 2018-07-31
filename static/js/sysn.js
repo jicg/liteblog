@@ -17,7 +17,7 @@ layui.define(['jquery', 'layer'], function (exports) {
             if (!error) {
                 sysn.sayError(msg);
             } else {
-                error(msg)
+                error(ret)
             }
         };
         $.ajax({

@@ -1,0 +1,19 @@
+{{str2html `<script id="LAY-msg-tpl" type="text/html">
+    <div class="info-box">
+        <div class="info-item">
+            <img class="info-img" src="{{ d.avatar }}" alt="">
+            <div class="info-text">
+                <p class="title count">
+                    <span class="name">{{ d.username }}</span>
+                    <span class="info-img like" data-key="{{ d.key}}" data-type="message">
+					  	<i class="layui-icon layui-icon-praise"></i>
+                    <span class="value">{{ d.praise }}</span>
+					 	</span>
+                </p>
+                <p class="info-intr">
+                {{ d.content }}
+                </p>
+            </div>
+        </div>
+    </div>
+</script>`}}

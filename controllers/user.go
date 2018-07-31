@@ -19,7 +19,7 @@ func (c *UserController) Login() {
 		user *models.User
 		err  error
 	)
-	if user, err = models.QueryUserByEmailAndPassword(email, pwd); err != nil {
+	if user, err = c.Dao.QueryUserByEmailAndPassword(email, pwd); err != nil {
 		c.Abort500(syserrors.NewError("邮箱或密码不对", err))
 	}
 	c.SetSession(SESSION_USER_KEY, user)
@@ -35,10 +35,10 @@ func (c *UserController) Reg() {
 	if strings.Compare(pwd1, pwd2) != 0 {
 		c.Abort500(errors.New("密码与确认密码 必须要一致！"))
 	}
-	if u, err := models.QueryUserByName(name); err == nil && u != nil && u.ID != 0 {
+	if u, err := c.Dao.QueryUserByName(name); err == nil && u != nil && u.ID != 0 {
 		c.Abort500(syserrors.NewError("用户昵称已经存在!", err))
 	}
-	if u, err := models.QueryUserByEmail(email); err == nil && u != nil && u.ID != 0 {
+	if u, err := c.Dao.QueryUserByEmail(email); err == nil && u != nil && u.ID != 0 {
 		c.Abort500(syserrors.NewError("用户邮箱已经存在！", err))
 	}
 

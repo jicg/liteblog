@@ -20,5 +20,13 @@ func init() {
 			"froala",
 			beego.NSInclude(&controllers.FroalaController{}),
 		),
+		beego.NewNamespace(
+			"praise",
+			beego.NSInclude(&controllers.PraiseController{}),
+		),
+		beego.NewNamespace(
+			"message",
+			beego.NSInclude(&controllers.MessageController{}),
+		),
 	)
 }

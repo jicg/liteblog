@@ -5,7 +5,7 @@
     <title>评论-闲言轻博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 {{template "comm/link.html"}}
-    {{/*<link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet" type="text/css"/>*/}}
+{{/*<link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet" type="text/css"/>*/}}
 
 </head>
 <body class="lay-blog">
@@ -18,29 +18,27 @@
                     <h3><a href="#">{{.note.Title}}</a></h3>
                     <h5>发布于：<span>{{date .note.UpdatedAt "Y-m-d h:i:s"}}</span></h5>
                     <p>{{.note.Summary}}</p>
-                {{/*<img src="../res/static/images/item.png" alt="">*/}}
                     <div class="count layui-clear">
-                        <span class="pull-left">阅读 <em>100000+</em></span>
-                        <span class="pull-right like"><i class="layui-icon layui-icon-praise"></i><em>999</em></span>
+                        <span class="pull-left">阅读 <em>{{.note.Visit}}</em></span>
+                        <span class="pull-right like" data-key="{{.note.Key}}" data-type="note"><i
+                                class="layui-icon layui-icon-praise"></i><em class="value">{{.note.Praise}}</em></span>
                     </div>
                 </div>
             </div>
             <form class="layui-form" action="">
+                <input type="hidden" name="key" required value="{{.note.Key}}">
                 <div class="layui-form-item layui-form-text">
-                    <textarea class="layui-textarea" style="resize:none" placeholder="写点什么啊"></textarea>
+                    <textarea name="content" class="layui-textarea" style="resize:none"
+                              placeholder="写点什么啊"></textarea>
                 </div>
                 <div class="btnbox">
-                    <a href="details.html" id="sure">
-                        确定
-                    </a>
+                    <button lay-submit lay-filter="comment" class="layui-btn">确定</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 {{template "comm/footer.html"}}
-<script id="LAY-msg-tpl" type="text/html">
-{{template "comm/tpl_msg.html"}}
-</script>
+{{/*{{template "comm/jstpl_msg.html"}}*/}}
 </body>
 </html>
