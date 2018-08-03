@@ -1,0 +1,9 @@
+liteblog:
+  image: daocloud.io/jicg/liteblog:latest
+  privileged: false
+  restart: always
+  ports:
+  - 3001:4000
+  volumes:
+  - /home/docker/liteblog/data:/app/data
+  - /home/docker/liteblog/assert:/app/assert
