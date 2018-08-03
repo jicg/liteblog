@@ -16,7 +16,7 @@ func (c *UserController) Login() {
 	email := c.GetMustString("email", "邮箱不能为空！")
 	pwd := c.GetMustString("password", "密码不能为空！")
 	var (
-		user *models.User
+		user models.User
 		err  error
 	)
 	if user, err = c.Dao.QueryUserByEmailAndPassword(email, pwd); err != nil {
@@ -35,10 +35,10 @@ func (c *UserController) Reg() {
 	if strings.Compare(pwd1, pwd2) != 0 {
 		c.Abort500(errors.New("密码与确认密码 必须要一致！"))
 	}
-	if u, err := c.Dao.QueryUserByName(name); err == nil && u != nil && u.ID != 0 {
+	if u, err := c.Dao.QueryUserByName(name); err == nil &&  u.ID != 0 {
 		c.Abort500(syserrors.NewError("用户昵称已经存在!", err))
 	}
-	if u, err := c.Dao.QueryUserByEmail(email); err == nil && u != nil && u.ID != 0 {
+	if u, err := c.Dao.QueryUserByEmail(email); err == nil && u.ID != 0 {
 		c.Abort500(syserrors.NewError("用户邮箱已经存在！", err))
 	}
 

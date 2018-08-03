@@ -15,7 +15,7 @@ type NestPreparer interface {
 type BaseController struct {
 	beego.Controller
 	IsLogin bool
-	User    *models.User
+	User    models.User
 	Dao     *models.DB
 }
 
@@ -26,7 +26,7 @@ func (ctx *BaseController) Prepare() {
 	ctx.IsLogin = false
 	tu := ctx.GetSession(SESSION_USER_KEY)
 	if tu != nil {
-		if u, ok := tu.(*models.User); ok {
+		if u, ok := tu.(models.User); ok {
 			ctx.User = u
 			ctx.Data["User"] = u
 			ctx.IsLogin = true

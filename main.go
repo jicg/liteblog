@@ -28,7 +28,7 @@ func initLog() {
 }
 
 func initSession() {
-	gob.Register(&models.User{})
+	gob.Register(models.User{})
 	//https://beego.me/docs/mvc/controller/session.md
 	beego.SetStaticPath("assert", "assert")
 	beego.BConfig.WebConfig.Session.SessionOn = true

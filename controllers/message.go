@@ -22,7 +22,7 @@ func (ctx *MessageController) NewMessage() {
 	notekey := ctx.Ctx.Input.Param(":key")
 	m := &models.Message{
 		UserID:  int(ctx.User.ID),
-		User:    *ctx.User,
+		User:    ctx.User,
 		Key:     key,
 		NoteKey: notekey,
 		Content: content,

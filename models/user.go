@@ -17,28 +17,16 @@ type User struct {
 	Role   int    `gorm:"default:0" json:"role"` // 0 管理员 1正常用户
 }
 
-func (db *DB) QueryUserByEmailAndPassword(email, password string) (*User, error) {
-	var user User
-	if err := db.db.Model(&User{}).Where("email = ? and pwd = ?", email, password).Take(&user).Error; err != nil {
-		return nil, err
-	}
-	return &user, nil
+func (db *DB) QueryUserByEmailAndPassword(email, password string) (user User, err error) {
+	return user, db.db.Model(&User{}).Where("email = ? and pwd = ?", email, password).Take(&user).Error
 }
 
-func (db *DB) QueryUserByName(name string) (*User, error) {
-	var user User
-	if err := db.db.Where("name = ?", name).Take(&user).Error; err != nil {
-		return nil, err
-	}
-	return &user, nil
+func (db *DB) QueryUserByName(name string) (user User, err error) {
+	return user, db.db.Where("name = ?", name).Take(&user).Error
 }
 
-func (db *DB) QueryUserByEmail(email string) (*User, error) {
-	var user User
-	if err := db.db.Where("email = ?", email).Take(&user).Error; err != nil {
-		return nil, err
-	}
-	return &user, nil
+func (db *DB) QueryUserByEmail(email string) (user User, err error) {
+	return user, db.db.Where("email = ?", email).Take(&user).Error
 }
 
 func SaveUser(user *User) (error) {
