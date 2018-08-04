@@ -6,22 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 {{template "comm/link.html"}}
-
-    <!-- Include external CSS. -->
-    <link href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"
-          type="text/css"/>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/codemirror/5.25.0/codemirror.min.css">
-    <!-- Include Editor style. -->
-    <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_editor.pkgd.min.css" rel="stylesheet"
-          type="text/css"/>
-    <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/static/lib/wangEditorPlus/wangEditor-fullscreen-plugin.css">
     <style>
         .lay-blog ul.pop-nav {
             z-index: 5;
         }
-
         .container {
             margin: 0 auto !important;
+        }
+        .w-e-toolbar {
+            flex-wrap: wrap;
+            font-size: 14px;
         }
     </style>
 
@@ -43,9 +38,8 @@
                 </div>
 
                 <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">内容</label>
                     <div class="layui-input-block">
-                        <div id="edit">{{if .note }}{{str2html .note.Content}}{{end}}</div>
+                        <div id="edit" style="background: #fff;">{{if .note }}{{str2html .note.Content}}{{end}}</div>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -59,13 +53,8 @@
 </div>
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 {{template "comm/footer.html" .}}
-<!-- Include external JS libs. -->
-<script type="text/javascript" src="https://cdn.bootcss.com/codemirror/5.25.0/codemirror.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/codemirror/5.25.0/mode/xml/xml.min.js"></script>
-
-<!-- Include Editor JS files. -->
-<script type="text/javascript" src="https://cdn.bootcss.com/froala-editor/2.8.1/js/froala_editor.pkgd.min.js"></script>
-<script src="https://cdn.bootcss.com/froala-editor/2.8.1/js/languages/zh_cn.js"></script>
+<script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script type="text/javascript" src="/static/lib/wangEditorPlus/wangEditor-fullscreen-plugin.js"></script>
 <script>
 
     layui.use(['form', 'jquery', 'layer', 'sysn'], function () {
@@ -73,21 +62,19 @@
                 sysn = layui.sysn,
                 $ = layui.jquery,
                 layer = layui.layer;
-        $("#edit").froalaEditor({
-            language: 'zh_cn',
-            height: 200,
-            imageUploadURL: '/froala/uploadimg',
-            videoUploadURL: '/froala/uploadvideo',
-            fileUploadURL: '/froala/uploadfile'
-        });
-        $("#edit").on('froalaEditor.file.unlink', function (e, editor, file) {
-            console.log(file);
-            console.log(file.getAttribute('href'));
-        });
+
+        var E = window.wangEditor;
+        var editor = new E('#edit');
+        // 或者 var editor = new E( document.getElementById('editor') )
+        E.fullscreen.init('#edit');
+         editor.customConfig.uploadImgShowBase64 = true;
+       // editor.customConfig.uploadImgServer = '/froala/uploadimg';
+        editor.customConfig.pasteFilterStyle = false;
+        editor.create();
         //监听提交
         form.on('submit(save)', function (fromdata) {
             var fdata = fromdata.field;
-            fdata.content = $("#edit").froalaEditor('html.get');
+            fdata.content = editor.txt.html();
             sysn.post("/note/save/{{.key}}", fdata)
                     .success(function (data) {
                         layer.msg(data.msg);
