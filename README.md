@@ -1,8 +1,11 @@
 # LiteBlog 
 基于beego实现的轻聊版博客，目标：简单，易用，方便。
 
+### 项目代码地址
+* [github地址](https://github.com/jicg/liteblog)
+* [码云](https://gitee.com/jicg/liteblog)【镜像仓库】
 
-###演示地址 
+### 演示地址 
   * 账号：jicg@qq.com 密码 jicg [地址](http://xianyan.hellowcloud.com/)
 
 ---
