@@ -19,5 +19,8 @@ VOLUME /app/assert
 
 EXPOSE 8080
 WORKDIR /app
-RUN chmod +x start.sh
+
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+&& echo 'Asia/Shanghai' >/etc/timezone \
+&& chmod +x start.sh
 CMD ["./start.sh"]
