@@ -17,8 +17,8 @@ func init() {
 			beego.NSInclude(&controllers.NoteController{}),
 		),
 		beego.NewNamespace(
-			"froala",
-			beego.NSInclude(&controllers.FroalaController{}),
+			"upload",
+			beego.NSInclude(&controllers.UploadController{}),
 		),
 		beego.NewNamespace(
 			"praise",

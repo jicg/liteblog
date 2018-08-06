@@ -29,7 +29,7 @@ html,body{
 	height: 100%;
 }
 body{
-	font-size: 1.2rem;
+	/*font-size: 1.2rem;*/
 	line-height: 1.5;
 	background: #f2f2f2;
 }
@@ -229,7 +229,6 @@ body{
 
 
 /* start message*/
-
 .container-message textarea{
 	font-size:14px;
 }
@@ -243,13 +242,10 @@ body{
 .lay-blog .container-message .title{overflow:hidden;margin-bottom:10px;}
 .lay-blog .container-message .title .name{float: left; display: block; line-height: 38px; color:#787878;}
 .info-intr{line-height: 24px;}
-.lay-blog .container-message .title .info-img{float: right;font-size;color:#4b5a75;}
+.lay-blog .container-message .title .info-img{float: right;color:#4b5a75;}
 .lay-blog .container-message .title .info-img i{font-size: 24px;padding-right: 5px;position: relative;top: 4px;} 
 .lay-blog .container-message .paging{text-align:center;padding-top:30px;}
 /* end message*/
-
-
-
 
 /* start details */
 .lay-blog .container-details .item{

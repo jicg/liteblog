@@ -5,12 +5,12 @@
 layui.define(['jquery', 'layer'], function (exports) {
     var $ = layui.jquery,
         layer = layui.layer,
-        ajaxObj = {},
+        ajaxObj = {async: true},
         sysn = {};
 
-    function ajax(url, type, timeout, data, success, error, complete) {
+    function ajax(url, type, timeout, data, async, success, error, complete) {
         var error2 = function (ret) {
-            var msg = ret.responseText || ret.msg||ret;
+            var msg = ret.responseText || ret.msg || ret;
             if (ret.status != undefined && ret.status == 0) {
                 msg = "网络异常";
             }
@@ -25,12 +25,35 @@ layui.define(['jquery', 'layer'], function (exports) {
             type: type,
             timeout: timeout || 5000,
             data: data,
+            async: async,
             success: function (ret) {
                 if (ret.code == 0) {
                     success(ret)
                 } else {
                     error2(ret)
                 }
+            },
+            error: error2,
+            complete: complete
+        });
+    }
+
+    function ajax2(url, type, timeout, data, async, success, error, complete) {
+        var error2 = function (ret) {
+            var msg = ret.responseText || ret.msg || ret;
+            if (ret.status != undefined && ret.status == 0) {
+                msg = "网络异常";
+            }
+            sysn.sayError(msg);
+        };
+        $.ajax({
+            url: url,
+            type: type,
+            timeout: timeout || 5000,
+            data: data,
+            async: async,
+            success: function (ret) {
+                success(ret)
             },
             error: error2,
             complete: complete
@@ -58,6 +81,16 @@ layui.define(['jquery', 'layer'], function (exports) {
         return this;
     };
 
+    sysn.success = function (success) {
+        ajaxObj.success = success;
+        return this;
+    };
+
+    sysn.async = function (async) {
+        ajaxObj.async = async;
+        return this;
+    };
+
     sysn.error = function (error) {
         ajaxObj.error = error;
         return this;
@@ -68,9 +101,18 @@ layui.define(['jquery', 'layer'], function (exports) {
         return this;
     };
 
-    sysn.run = function () {
-        ajax(ajaxObj.url, ajaxObj.method, ajaxObj.timeout, ajaxObj.data, ajaxObj.success, ajaxObj.error, ajaxObj.complete);
+    sysn.run = function (option) {
+        if (ajaxObj.async == null || ajaxObj.async == undefined) {
+            ajaxObj.async = true;
+        }
+        if (option && option.novaild) {
+            ajax2(ajaxObj.url, ajaxObj.method, ajaxObj.timeout, ajaxObj.data, ajaxObj.async, ajaxObj.success, ajaxObj.error, ajaxObj.complete);
+
+        } else {
+            ajax(ajaxObj.url, ajaxObj.method, ajaxObj.timeout, ajaxObj.data, ajaxObj.async, ajaxObj.success, ajaxObj.error, ajaxObj.complete);
+        }
     };
+
 
     sysn.sayOk = function (msg) {
         layer.msg(msg, {icon: 6});

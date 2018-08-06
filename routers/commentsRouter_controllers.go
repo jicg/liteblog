@@ -7,30 +7,6 @@ import (
 
 func init() {
 
-	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:FroalaController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:FroalaController"],
-		beego.ControllerComments{
-			Method: "UploadFile",
-			Router: `/uploadfile`,
-			AllowHTTPMethods: []string{"post"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:FroalaController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:FroalaController"],
-		beego.ControllerComments{
-			Method: "UploadImg",
-			Router: `/uploadimg`,
-			AllowHTTPMethods: []string{"post"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:FroalaController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:FroalaController"],
-		beego.ControllerComments{
-			Method: "UploadVideo",
-			Router: `/uploadvideo`,
-			AllowHTTPMethods: []string{"post"},
-			MethodParams: param.Make(),
-			Params: nil})
-
 	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:IndexController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:IndexController"],
 		beego.ControllerComments{
 			Method: "Get",
@@ -131,6 +107,22 @@ func init() {
 		beego.ControllerComments{
 			Method: "Parse",
 			Router: `/:type/:key`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:UploadController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:UploadController"],
+		beego.ControllerComments{
+			Method: "UploadFile",
+			Router: `/uploadfile`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:UploadController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:UploadController"],
+		beego.ControllerComments{
+			Method: "UploadImg",
+			Router: `/uploadimg`,
 			AllowHTTPMethods: []string{"post"},
 			MethodParams: param.Make(),
 			Params: nil})

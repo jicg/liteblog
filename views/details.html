@@ -5,7 +5,6 @@
     <title>评论-闲言轻博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 {{template "comm/link.html"}}
-    <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet" type="text/css"/>
 </head>
 <body class="lay-blog">
 {{template "comm/header.html".}}
@@ -16,10 +15,9 @@
                 <div class="item-box  layer-photos-demo1 layer-photos-demo">
                     <h3><a href="#">{{.note.Title}}</a></h3>
                     <h5>发布于：<span>{{date .note.UpdatedAt "Y-m-d h:i:s"}}</span></h5>
-                    <div class=" fr-view" style="overflow-y: auto">
+                    <div class="body" style="overflow-y: auto">
                     {{str2html .note.Content}}
                     </div>
-
                 {{/*<img src="../res/static/images/item.png" alt="">*/}}
                     <div class="count layui-clear">
                         <span class="pull-left">阅读 <em>{{.note.Visit}}</em></span>
@@ -31,6 +29,25 @@
                     </div>
                 </div>
             </div>
+        {{if .note.Files}}
+            <div class="item">
+                <div class="item-box  layer-photos-demo1 layer-photos-demo">
+                    <h3>附件下载</h3>
+                    <div id="files" style="display: none">{{.note.Files}}</div>
+                    <div class="layui-upload-list">
+                        <table class="layui-table " lay-skin="line">
+                            <thead>
+                            <tr>
+                                <th>文件名</th>
+                            </tr>
+                            </thead>
+                            <tbody id="demoList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {{end}}
+
             <a name="comment"> </a>
             <div class="comt layui-clear">
                 <a href="javascript:;" class="pull-left">评论</a>
@@ -92,6 +109,22 @@
         };
     {{end}}
         util.fixbar(option);
+        var fielstemp = $("#files").text(), filelists = $("#demoList");
+        if (fielstemp) {
+            var otherfiles = fielstemp.split(";");
+            for (var i = 0; i < otherfiles.length; i++) {
+                var index = i;
+                sysn.get(otherfiles[index] + ".json")
+                        .async(false)
+                        .success(function (file) {
+                            var tr = $(['<tr id="upload-' + index + '">'
+                                , '<td><a  href="' + otherfiles[index] + '" target="_blank">' + file.Filename + '</a></td>'
+                                , '</tr>'].join(''));
+                            tr.addClass("done").data("link", otherfiles[index]);
+                            filelists.append(tr);
+                        }).run({novaild: true});
+            }
+        }
     });
 
 </script>

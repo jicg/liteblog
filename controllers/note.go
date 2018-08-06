@@ -53,7 +53,7 @@ func (ctx *NoteController) Save() {
 	key := ctx.Ctx.Input.Param(":key")
 	title := ctx.GetMustString("title", "标题不能为空！")
 	content := ctx.GetMustString("content", "内容不能为空！")
-
+	files := ctx.GetString("files", "")
 	summary, _ := getSummary(content)
 	note, err := ctx.Dao.QueryNoteByKeyAndUserId(key, int(ctx.User.ID))
 	var n models.Note
@@ -65,6 +65,7 @@ func (ctx *NoteController) Save() {
 			Key:     key,
 			Summary: summary,
 			Title:   title,
+			Files:   files,
 			Content: content,
 			UserID:  int(ctx.User.ID),
 		}
@@ -73,15 +74,14 @@ func (ctx *NoteController) Save() {
 		n.Title = title
 		n.Content = content
 		n.Summary = summary
+		n.Files = files
 		n.UpdatedAt = time.Now()
 	}
 	if err := ctx.Dao.SaveNote(&n); err != nil {
 		ctx.Abort500(syserrors.NewError("保存失败！", err))
 	}
-	ctx.JSONOk("成功")
+	ctx.JSONOk("成功", "/details/"+key)
 }
-
-
 
 func getSummary(content string) (string, error) {
 	var buf bytes.Buffer

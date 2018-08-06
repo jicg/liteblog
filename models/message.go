@@ -13,6 +13,7 @@ type Note struct {
 	Title   string
 	Summary string `gorm:"type:text"`
 	Content string `gorm:"type:text"`
+	Files   string `gorm:"type:text"`
 	Visit   int    `gorm:"default:0"`
 	Praise  int    `gorm:"default:0"`
 }

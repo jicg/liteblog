@@ -6,14 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 {{template "comm/link.html"}}
-    <link rel="stylesheet" href="/static/lib/wangEditorPlus/wangEditor-fullscreen-plugin.css">
+    <link rel="stylesheet" href="/static/lib/wangEditor/plus/wangEditor-fullscreen-plugin.css">
     <style>
         .lay-blog ul.pop-nav {
-            z-index: 5;
+            z-index: 2000;
         }
+
         .container {
             margin: 0 auto !important;
         }
+
         .w-e-toolbar {
             flex-wrap: wrap;
             font-size: 14px;
@@ -26,55 +28,184 @@
 <div class="container-wrap">
     <div class="container">
         <div class="contar-wrap">
-            <form class="layui-form layui-form-pane" action="">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">标题</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" required=""
-                               value="{{.note.Title}}"
-                               lay-verify="required" placeholder="请输入标题"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
+            <div class="container-panel">
+                <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">新增文章</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">标题</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="title" required=""
+                                           value="{{.note.Title}}"
+                                           lay-verify="required" placeholder="请输入标题"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
 
-                <div class="layui-form-item layui-form-text">
-                    <div class="layui-input-block">
-                        <div id="edit" style="background: #fff;">{{if .note }}{{str2html .note.Content}}{{end}}</div>
+                            <div class="layui-form-item layui-form-text">
+                                <div class="layui-input-block">
+                                    <div id="edit"
+                                         style="background: #fff;">{{if .note }}{{str2html .note.Content}}{{end}}</div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <input type="hidden" id="files" name="files" value="{{.note.Files}}">
+                                <div class="layui-upload">
+                                    <button type="button" class="layui-btn layui-btn-normal"
+                                            id="testList">
+                                        选择附件
+                                    </button>
+                                    <div class="layui-upload-list">
+                                        <table class="layui-table">
+                                            <thead>
+                                            <tr>
+                                                <th>文件名</th>
+                                                <th>大小</th>
+                                                <th>状态</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="demoList"></tbody>
+                                        </table>
+                                    </div>
+                                {{/*<button type="button" class="layui-btn" id="testListAction">开始上传</button>*/}}
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <button class="layui-btn" lay-submit=""
+                                        lay-filter="save">提交
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <button class="layui-btn" lay-submit=""
-                            lay-filter="save">提交
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 {{template "comm/footer.html" .}}
-<script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
-<script type="text/javascript" src="/static/lib/wangEditorPlus/wangEditor-fullscreen-plugin.js"></script>
+<script type="text/javascript" src="/static/lib/wangEditor/wangEditor.min.js"></script>
+<script type="text/javascript" src="/static/lib/wangEditor/plus/wangEditor-fullscreen-plugin.js"></script>
 <script>
 
-    layui.use(['form', 'jquery', 'layer', 'sysn'], function () {
+    layui.use(['form', 'jquery', 'layer', 'upload', 'sysn'], function () {
         var form = layui.form,
                 sysn = layui.sysn,
                 $ = layui.jquery,
-                layer = layui.layer;
+                layer = layui.layer,
+                upload = layui.upload;
 
         var E = window.wangEditor;
         var editor = new E('#edit');
         // 或者 var editor = new E( document.getElementById('editor') )
-        E.fullscreen.init('#edit');
-         editor.customConfig.uploadImgShowBase64 = true;
-       // editor.customConfig.uploadImgServer = '/froala/uploadimg';
+        editor.customConfig.uploadImgShowBase64 = true;
+        // editor.customConfig.uploadImgServer = '/froala/uploadimg';
         editor.customConfig.pasteFilterStyle = false;
+        editor.customConfig.zIndex = 1;
         editor.create();
+
+        E.fullscreen.init('#edit');
+        var fielstemp = $("#files").val(), demoListView = $('#demoList')
+                , uploadListIns = upload.render({
+            elem: '#testList'
+            , url: '/upload/uploadfile/'
+            , accept: 'file'
+            , size: 30 * 1024
+            , multiple: true
+            , auto: false
+            // , bindAction: '#testListAction'
+            , choose: function (obj) {
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function (index, file, result) {
+                    var tr = $(['<tr id="upload-' + index + '">'
+                        , '<td>' + file.name + '</td>'
+                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                        , '<td>等待上传</td>'
+                        , '<td>'
+                        , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function () {
+                        obj.upload(index, file);
+                        return false;
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function () {
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        return false;
+                    });
+                    demoListView.append(tr);
+                    obj.upload(index, file);
+                });
+            }
+            , done: function (res, index, upload) {
+                if (res.code == 0) { //上传成功
+                    var tr = demoListView.find('tr#upload-' + index)
+                            , tds = tr.children();
+                    tr.addClass("done").data("link", res.link);
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html('<a class="layui-btn layui-btn-xs demo-download" href="' + res.link + '" target="_blank">下载</a><button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'); //清空操作
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload);
+            }
+            , error: function (index, upload) {
+                var tr = demoListView.find('tr#upload-' + index)
+                        , tds = tr.children();
+                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
+        if (fielstemp) {
+            var otherfiles = fielstemp.split(";");
+            for (var i = 0; i < otherfiles.length; i++) {
+                var index = i;
+                sysn.get(otherfiles[index] + ".json")
+                        .async(false)
+                        .success(function (file) {
+                            var tr = $(['<tr id="upload-' + index + '">'
+                                , '<td>' + file.Filename + '</td>'
+                                , '<td>' + (file.Size / 1014).toFixed(1) + 'kb</td>'
+                                , '<td><span style="color: #5FB878;">上传成功</span></td>'
+                                , '<td>'
+                                , "<a class='layui-btn layui-btn-xs demo-download' href='" + otherfiles[index] + "' target='_blank'>下载</a>"
+                                , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                                , '</td>'
+                                , '</tr>'].join(''));
+                            tr.addClass("done").data("link", otherfiles[index]);
+                            //删除
+                            tr.find('.demo-delete').on('click', function () {
+                                delete otherfiles[index]; //删除对应的文件
+                                tr.remove();
+                                return false;
+                            });
+                            demoListView.append(tr);
+                        }).run({novaild: true});
+            }
+        }
+
         //监听提交
         form.on('submit(save)', function (fromdata) {
             var fdata = fromdata.field;
             fdata.content = editor.txt.html();
+
+            var files = [];
+            demoListView.find('tr.done').each(function (index, item) {
+                files.push($(item).data("link"))
+            });
+            fdata.files = files.join(";");
             sysn.post("/note/save/{{.key}}", fdata)
                     .success(function (data) {
                         layer.msg(data.msg);

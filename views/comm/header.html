@@ -39,7 +39,10 @@
     <ul class="pop-nav" id="pop-nav">
         <li><a href="/">首页</a></li>
         <li><a href="/message">留言</a></li>
-        <li><a href="/about">关于</a></li>
+    {{/*<li><a href="/about">关于</a></li>*/}}
+        <li>
+            <a href="https://github.com/jicg/liteblog" target="_blank">Github</a>
+        </li>
         <li><a href="/user"><i class="layui-icon {{if .IsLogin}}  {{else}} layui-icon-username {{end}} "
                                style="font-size: 20px;font-style: normal;font-weight:bold;">{{if .User.Name}}{{.User.Name}}{{else}}
             登陆{{end}}</i></a></li>
