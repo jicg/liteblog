@@ -34,11 +34,18 @@
                 </p>
             </h4>
         {{if eq .User.Role 0}}
+            {{/*<h4 class="item-title">*/}}
+                {{/*<p>*/}}
+                    {{/*<a id="changPwd" href="javacript:void(0);"><i*/}}
+                            {{/*class="layui-icon layui-icon-edit">&#xe642;</i><span>修改密码</span></a>*/}}
+                {{/*</p>*/}}
+            {{/*</h4>*/}}
             <h4 class="item-title">
-                <p><i class="layui-icon layui-icon-set"></i>
-                    <a href="/note/new"><span>新增文章</span></a>
+                <p>
+                    <a href="/note/new"><i class="layui-icon layui-icon-add-1">&#xe654;</i><span>新增文章</span></a>
                 </p>
             </h4>
+
         {{end}}
         {{else}}
             <div class="item">
