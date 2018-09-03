@@ -8,6 +8,9 @@
 ### 演示地址 
   * 账号：jicg@qq.com 密码 jicg [地址](http://xianyan.hellowcloud.com/)
 
+### 课程
+  * [B站](https://www.bilibili.com/video/av29253354/)
+  * [简述]()
 ---
 ### 非常感谢
   * [beego](https://github.com/astaxie/beego)

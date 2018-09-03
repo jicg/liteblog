@@ -16,13 +16,58 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
 
 
     //statr 分页
+    if ($("#test1").size() > 0) {
+        var count = 0;
+        sysn.get("/message/count")
+            .async(false)
+            .success(function (ret) {
+                if (ret && ret.code === 0) {
+                    count = ret.count
+                }
+            }).run();
+        laypage.render({
+            elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+            , count: count //数据总数，从服务端得到
+            , theme: '#1e9fff'
+            , limit: 5
+            , jump: function (obj, first) {
+                if (count <= 0) {
+                    return
+                }
+                sysn.get("/message/query", {pageno: obj.curr, limit: obj.limit})
+                    .success(function (ret) {
 
-    // laypage.render({
-    //     elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-    //     , count: 50 //数据总数，从服务端得到
-    //     , theme: '#1e9fff'
-    // });
+                        if (!ret || !ret.data || ret.data.length <= 0) {
+                            return;
+                        }
+                        if (ret.code !== 0) {
+                            layer.msg(ret.msg);
+                            return;
+                        }
+                        var view = $('#LAY-msg-tpl').html();
+                        var htmlstr = "";
 
+                        for (var i = 0; i < ret.data.length; i++) {
+                            var data = {
+                                username: ret.data[i].user.name
+                                , avatar: ret.data[i].user.avatar || '/static/images/info-img.png'
+                                , praise: ret.data[i].praise
+                                , content: ret.data[i].content
+                                , key: ret.data.key
+                            };
+
+                            //模板渲染
+                            laytpl(view).render(data, function (html) {
+                                htmlstr += html;
+                            });
+                        }
+                        var $htmlstr = $(htmlstr);
+                        $('#LAY-msg-box').html($htmlstr);
+                        $htmlstr.find(".like").on('click', praise);
+                    }).run()
+            }
+        });
+    }
     // end 分頁
 
 
@@ -109,7 +154,8 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
                 .error(function (data) {
                     sysn.sayError(data.msg);
                     if (data.code == 4444) {
-                        $(that).addClass('layblog-this');that.text = '已赞';
+                        $(that).addClass('layblog-this');
+                        that.text = '已赞';
                     }
                 }).run();
 

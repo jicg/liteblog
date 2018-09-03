@@ -54,6 +54,7 @@ func (c *IndexController) GetDetail() {
 
 // @router /comment/:key [get]
 func (c *IndexController) GetComment() {
+
 	key := c.Ctx.Input.Param(":key")
 	note, err := c.Dao.QueryNoteByKey(key)
 	if err != nil {

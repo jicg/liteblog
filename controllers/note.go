@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/go-xweb/uuid"
+	"github.com/satori/go.uuid"
 	"github.com/jicg/liteblog/models"
 	"time"
 	"github.com/jicg/liteblog/syserrors"
@@ -23,7 +23,7 @@ func (ctx *NoteController) NestPrepare() {
 
 // @router /new [get]
 func (ctx *NoteController) NewPage() {
-	ctx.Data["key"] = uuid.NewUUID().String()
+	ctx.Data["key"] = uuid.NewV4().String()
 	ctx.TplName = "note_new.html"
 }
 
@@ -92,7 +92,7 @@ func getSummary(content string) (string, error) {
 	}
 	str := doc.Find("body").Text()
 	if len(str) > 600 {
-		str = str[0:600] + "..."
+		str = str[:600] + "..."
 	}
 	return str, nil
 }

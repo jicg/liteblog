@@ -65,9 +65,25 @@ func init() {
 
 	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:MessageController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:MessageController"],
 		beego.ControllerComments{
+			Method: "Count",
+			Router: `/count`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:MessageController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:MessageController"],
+		beego.ControllerComments{
 			Method: "NewMessage",
 			Router: `/new/?:key`,
 			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:MessageController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:MessageController"],
+		beego.ControllerComments{
+			Method: "Query",
+			Router: `/query`,
+			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
 			Params: nil})
 

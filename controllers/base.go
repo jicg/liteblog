@@ -24,13 +24,10 @@ func (ctx *BaseController) Prepare() {
 	ctx.Dao = models.NewDB()
 	// 验证用户是否登陆
 	ctx.IsLogin = false
-	tu := ctx.GetSession(SESSION_USER_KEY)
-	if tu != nil {
-		if u, ok := tu.(models.User); ok {
-			ctx.User = u
-			ctx.Data["User"] = u
-			ctx.IsLogin = true
-		}
+	if u, ok := ctx.GetSession(SESSION_USER_KEY).(models.User); ok {
+		ctx.User = u
+		ctx.Data["User"] = u
+		ctx.IsLogin = true
 	}
 	ctx.Data["IsLogin"] = ctx.IsLogin
 	//判断子controller是否实现接口 NestPreparer

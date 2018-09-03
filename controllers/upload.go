@@ -51,7 +51,8 @@ func (ctx *UploadController) NestPrepare() {
 
 //图片上传
 // @router /uploadimg [post]
-func (c *UploadController) UploadImg() {
+func (c *UploadController) UploadImg(){
+
 	_, h, err := c.GetFile("file")
 	if err != nil {
 		c.Abort500(err)
