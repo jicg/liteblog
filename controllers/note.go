@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"github.com/satori/go.uuid"
 	"github.com/jicg/liteblog/models"
 	"time"
 	"github.com/jicg/liteblog/syserrors"
@@ -23,7 +22,7 @@ func (ctx *NoteController) NestPrepare() {
 
 // @router /new [get]
 func (ctx *NoteController) NewPage() {
-	ctx.Data["key"] = uuid.NewV4().String()
+	ctx.Data["key"] = ctx.UUID()
 	ctx.TplName = "note_new.html"
 }
 

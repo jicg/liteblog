@@ -9,7 +9,7 @@ import (
 	"github.com/jicg/liteblog/syserrors"
 	"mime/multipart"
 	"io/ioutil"
-	"github.com/gin-gonic/gin/json"
+	"encoding/json"
 )
 
 type UploadController struct {

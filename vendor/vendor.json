@@ -1,0 +1,178 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "l1dgFJfzGLG/2AEPyt6ADsnVLPQ=",
+			"path": "github.com/PuerkitoBio/goquery",
+			"revision": "dc2ec5c7ca4d9aae063b79b9f581dd3ea6afd2b2",
+			"revisionTime": "2018-06-07T15:06:10Z"
+		},
+		{
+			"checksumSHA1": "Q/2QpI7E35SsNYfaxLsWHFry9k4=",
+			"path": "github.com/andybalholm/cascadia",
+			"revision": "901648c87902174f774fac311d7f176f8647bdaa",
+			"revisionTime": "2018-02-20T18:43:36Z"
+		},
+		{
+			"checksumSHA1": "LgZecWOcp+Fd6s2er2kwpdRApcI=",
+			"path": "github.com/astaxie/beego",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "m+xzAT4nURcPGkMePX2zklJK/lI=",
+			"path": "github.com/astaxie/beego/config",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "tDeHBdiXEzOuHzb/3Zp2ilRZjNU=",
+			"path": "github.com/astaxie/beego/context",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "iHY0XMPlj5EfCxMN4NEmvBgdhDM=",
+			"path": "github.com/astaxie/beego/context/param",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "N5kHk4qbc10N2Lp9ltA2G76qNxs=",
+			"path": "github.com/astaxie/beego/grace",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "OksAzF6VvpfTlte99lpVNV+iSnY=",
+			"path": "github.com/astaxie/beego/logs",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "EDaMYv6yHO6Xu9J8loeGIUOvGoE=",
+			"path": "github.com/astaxie/beego/session",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "EOoY9qbCsWnu5FlZZnMKUKkLcMk=",
+			"path": "github.com/astaxie/beego/toolbox",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "W7HBzu7HlF18vCfNPgax7xvHXB0=",
+			"path": "github.com/astaxie/beego/utils",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "K2x9czFwwfYcB6GyZCqZmJsa7gE=",
+			"path": "github.com/jinzhu/gorm",
+			"revision": "32455088f24d6b1e9a502fb8e40fdc16139dbea8",
+			"revisionTime": "2018-08-18T23:14:33Z"
+		},
+		{
+			"checksumSHA1": "4VZ1gLZHMumRjV3fclS1aX8S1aQ=",
+			"path": "github.com/jinzhu/gorm/dialects/sqlite",
+			"revision": "32455088f24d6b1e9a502fb8e40fdc16139dbea8",
+			"revisionTime": "2018-08-18T23:14:33Z"
+		},
+		{
+			"checksumSHA1": "4eelJOSLZoDzLuaJvgilOBVNovU=",
+			"path": "github.com/jinzhu/inflection",
+			"revision": "04140366298a54a039076d798123ffa108fff46c",
+			"revisionTime": "2018-03-08T03:36:59Z"
+		},
+		{
+			"checksumSHA1": "tewA7jXVGCw1zb5mA0BDecWi4iQ=",
+			"path": "github.com/jtolds/gls",
+			"revision": "8ddce2a84170772b95dd5d576c48d517b22cac63",
+			"revisionTime": "2016-01-05T22:08:40Z"
+		},
+		{
+			"checksumSHA1": "0YgW0+rmiIzLlvhIKlQ0s0olPg8=",
+			"path": "github.com/mattn/go-sqlite3",
+			"revision": "e5a3c16c5c1d80b24f633e68aecd6b0702786d3d",
+			"revisionTime": "2016-10-04T16:01:36Z"
+		},
+		{
+			"checksumSHA1": "eDQ6f1EsNf+frcRO/9XukSEchm8=",
+			"path": "github.com/satori/go.uuid",
+			"revision": "36e9d2ebbde5e3f13ab2e25625fd453271d6522e",
+			"revisionTime": "2018-01-03T17:44:51Z"
+		},
+		{
+			"checksumSHA1": "8sTogvgjVmUeLd4vWfcARLDBksg=",
+			"path": "github.com/smartystreets/assertions",
+			"revision": "e60cfa771e3f4d18723a4119f1833898c9c62066",
+			"revisionTime": "2016-11-10T22:55:57Z"
+		},
+		{
+			"checksumSHA1": "Vzb+dEH/LTYbvr8RXHmt6xJHz04=",
+			"path": "github.com/smartystreets/assertions/internal/go-render/render",
+			"revision": "e60cfa771e3f4d18723a4119f1833898c9c62066",
+			"revisionTime": "2016-11-10T22:55:57Z"
+		},
+		{
+			"checksumSHA1": "dSZQzhiGN0tEILHxUZcrFFNW2Xw=",
+			"path": "github.com/smartystreets/assertions/internal/oglematchers",
+			"revision": "e60cfa771e3f4d18723a4119f1833898c9c62066",
+			"revisionTime": "2016-11-10T22:55:57Z"
+		},
+		{
+			"checksumSHA1": "/mwAihy9AmznMzmbPQ5nWJXBiRU=",
+			"path": "github.com/smartystreets/goconvey/convey",
+			"revision": "019319c870f8f1d61dc9c34291abff5cd128b6e8",
+			"revisionTime": "2016-11-03T17:15:00Z"
+		},
+		{
+			"checksumSHA1": "9LakndErFi5uCXtY1KWl0iRnT4c=",
+			"path": "github.com/smartystreets/goconvey/convey/gotest",
+			"revision": "019319c870f8f1d61dc9c34291abff5cd128b6e8",
+			"revisionTime": "2016-11-03T17:15:00Z"
+		},
+		{
+			"checksumSHA1": "FWDhk37bhAwZ2363D/L2xePwR64=",
+			"path": "github.com/smartystreets/goconvey/convey/reporting",
+			"revision": "019319c870f8f1d61dc9c34291abff5cd128b6e8",
+			"revisionTime": "2016-11-03T17:15:00Z"
+		},
+		{
+			"checksumSHA1": "J6lNRPdrYhKft6S8x33K9brxyhE=",
+			"origin": "github.com/astaxie/beego/vendor/golang.org/x/crypto/acme",
+			"path": "golang.org/x/crypto/acme",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "EFjIi/zCZ1Cte0MQtyxGCTgSzk8=",
+			"origin": "github.com/astaxie/beego/vendor/golang.org/x/crypto/acme/autocert",
+			"path": "golang.org/x/crypto/acme/autocert",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		},
+		{
+			"checksumSHA1": "vqc3a+oTUGX8PmD0TS+qQ7gmN8I=",
+			"path": "golang.org/x/net/html",
+			"revision": "b336a971b799939dd16ae9b1df8334cb8b977c4d",
+			"revisionTime": "2016-10-27T19:58:04Z"
+		},
+		{
+			"checksumSHA1": "00eQaGynDYrv3tL+C7l9xH0IDZg=",
+			"path": "golang.org/x/net/html/atom",
+			"revision": "b336a971b799939dd16ae9b1df8334cb8b977c4d",
+			"revisionTime": "2016-10-27T19:58:04Z"
+		},
+		{
+			"checksumSHA1": "ZSWoOPUNRr5+3dhkLK3C4cZAQPk=",
+			"origin": "github.com/astaxie/beego/vendor/gopkg.in/yaml.v2",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "053a075344c118a5cc41981b29ef612bb53d20ca",
+			"revisionTime": "2018-07-31T13:18:48Z"
+		}
+	],
+	"rootPath": "github.com/jicg/liteblog"
+}

@@ -5,6 +5,7 @@ import (
 	"github.com/jicg/liteblog/models"
 	"errors"
 	"github.com/jicg/liteblog/syserrors"
+	"github.com/satori/go.uuid"
 )
 
 const SESSION_USER_KEY = "SESSION_USER_KEY"
@@ -96,4 +97,12 @@ func (ctx *BaseController) JSONOkData(count int, data interface{}) {
 		Data:  data,
 	}
 	ctx.ServeJSON()
+}
+
+func (this *BaseController) UUID() string {
+	u,err:=uuid.NewV4()
+	if err!=nil{
+		this.Abort500(syserrors.NewError("系统错误",err))
+	}
+	return u.String()
 }

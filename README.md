@@ -10,7 +10,7 @@
 
 ### 课程
   * [B站](https://www.bilibili.com/video/av29253354/)
-  * [简述]()
+  * [简述](https://www.jianshu.com/nb/27703855)
 ---
 ### 非常感谢
   * [beego](https://github.com/astaxie/beego)

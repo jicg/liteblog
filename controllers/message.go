@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"github.com/satori/go.uuid"
 	"github.com/jicg/liteblog/models"
 	"github.com/jicg/liteblog/syserrors"
 )
@@ -17,7 +16,7 @@ func (ctx *MessageController) NestPrepare() {
 // @router /new/?:key [post]
 func (ctx *MessageController) NewMessage() {
 	ctx.MustLogin()
-	key := uuid.NewV4().String()
+	key :=  ctx.UUID()
 	content := ctx.GetMustString("content", "内容不能为空")
 	notekey := ctx.Ctx.Input.Param(":key")
 	m := &models.Message{
