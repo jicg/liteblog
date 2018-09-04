@@ -1,5 +1,4 @@
 # Binaries for programs and plugins
-*.exe
 *.exe~
 *.dll
 *.so
@@ -18,3 +17,5 @@ tests
 lastupdate.tmp
 Unnamed
 assert
+liteblog.msi
+liteblog.exe

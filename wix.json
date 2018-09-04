@@ -1,0 +1,76 @@
+{
+  "product": "liteblog",
+  "company": "jicg",
+  "license": "LICENSE",
+  "upgrade-code": "7dd73fee-5feb-4f54-8b45-98336f6c78af",
+  "files": {
+    "guid": "995790bf-43d9-4dec-9069-edce82e765c3",
+    "items": [
+      "liteblog.exe"
+    ]
+  },
+  "directories": [
+    "views",
+    "static",
+    "conf",
+    "nssm"
+  ],
+  "env": {
+    "guid": "c6a6f441-eb98-46f8-aaeb-51c836877237",
+    "vars": [
+      {
+        "name": "PATH",
+        "value": "[INSTALLDIR]",
+        "permanent": "no",
+        "system": "no",
+        "action": "set",
+        "part": "last"
+      }
+    ]
+  },
+
+  "choco": {
+    "description": "轻博客",
+    "project-url": "https://github.com/jicg/liteblog",
+    "tags": "generate liteblog nuget",
+    "license-url": "https://github.com/jicg/liteblog/blob/master/LICENSE"
+  },
+  "hooks": [
+    {
+      "command": "\"[INSTALLDIR]nssm\\nssm.exe\" install liteblog \"[INSTALLDIR]liteblog.exe\"",
+      "when": "install"
+    },
+    {
+      "command": "\"[INSTALLDIR]nssm\\nssm.exe\" set liteblog Start SERVICE_AUTO_START",
+      "when": "install"
+    },
+    {
+      "command": "\"[INSTALLDIR]nssm\\nssm.exe\" set liteblog AppStdout \"[INSTALLDIR]nssm\\info.log\"",
+      "when": "install"
+    },
+    {
+      "command": "\"[INSTALLDIR]nssm\\nssm.exe\" set liteblog AppStderr \"[INSTALLDIR]nssm\\err.log\"",
+      "when": "install"
+    },
+    {
+      "command": "\"[INSTALLDIR]nssm\\nssm.exe\" set liteblog AppRotateFiles 1",
+      "when": "install"
+    },
+    {
+      "command": "\"[INSTALLDIR]nssm\\nssm.exe\" set liteblog AppRotateBytes 1048576",
+      "when": "install"
+    },
+    {
+      "command": "sc.exe start liteblog",
+      "when": "install"
+    },
+    {
+      "command": "sc.exe stop liteblog",
+      "when": "uninstall"
+    },
+    {
+      "command": "sc.exe delete liteblog",
+      "when": "uninstall"
+    }
+  ]
+}
