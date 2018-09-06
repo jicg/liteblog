@@ -61,14 +61,6 @@
       "when": "install"
     },
     {
-      "command": "sc.exe start liteblog",
-      "when": "install"
-    },
-    {
-      "command": "sc.exe stop liteblog",
-      "when": "uninstall"
-    },
-    {
       "command": "sc.exe delete liteblog",
       "when": "uninstall"
     }
