@@ -29,7 +29,7 @@ func (ctx *NoteController) NewPage() {
 // @router /edit/:key [get]
 func (ctx *NoteController) EditPage() {
 	key := ctx.Ctx.Input.Param(":key")
-	note, err := ctx.Dao.QueryNoteByKey(key)
+	note, err := ctx.Dao.QueryNoteByKeyAndUserId(key, int(ctx.User.ID))
 	if err != nil {
 		ctx.Abort500(syserrors.NewError("文章不存在", err))
 	}

@@ -32,65 +32,22 @@
         </div>
         <div class="item-btn">
         {{if gt .page 1}}
-            <button id="prePageBtn" class="layui-btn layui-btn-normal">上一页
+            <button class="layui-btn layui-btn-normal"
+                    onclick="window.location.href='/?page={{add .page -1 }}&title={{.title}}'">
+                上一页
             </button>
         {{end}}
         {{if lt .page .totpage}}
-            <button id="nextPageBtn" class="layui-btn layui-btn-normal">下一页
+            <button class="layui-btn layui-btn-normal"
+                    onclick="window.location.href='/?page={{add .page 1 }}&title={{.title}}'"
+            >下一页
             </button>
         {{end}}
         </div>
+        <input id="curpage" type="hidden" value="{{.page}}">
     </div>
 </div>
 {{template "comm/footer.html" .}}
-<script>
-    layui.use(['jquery', 'util'], function () {
-        var util = layui.util,
-                $ = layui.jquery;
-        //执行
-        var option = {};
-    {{if and (.IsLogin)  (eq2 .User.Role 0) }}
-        option = {
-            bar1: '&#xe654;',
-            click: function (type) {
-                console.log(type);
-                if (type === 'bar1') {
-                {{if .IsLogin }}
-                    window.location.href = "/note/new";
-                {{else}}
-                    window.location.href = "/user";
-                {{end}}
-                }
-            }
-        };
-    {{else if not .IsLogin}}
-        option = {
-            bar1: '&#xe770;',
-            click: function (type) {
-                if (type === 'bar1') {
-                    window.location.href = "/user";
-                }
-            }
-        };
-    {{end}}
-        util.fixbar(option);
-        $("#nextPageBtn").on("click", function () {
-            var nextpage = {{.page}}+1;
-            if (nextpage >{{.totpage}}) {
-                layer.msg("没有下一页", {icon: 5})
-            } else {
-                window.location.href = "/?page=" + nextpage + "&title={{.title}}"
-            }
-        });
-        $("#prePageBtn").on("click", function () {
-            var nextpage = {{.page}}-1;
-            if (nextpage <= 0) {
-                layer.msg("没有上一页", {icon: 5})
-                return;
-            }
-            window.location.href = "/?page=" + nextpage + "&title={{.title}}"
-        });
-    });
-</script>
+<script src="/static/js/index.js"></script>
 </body>
 </html>

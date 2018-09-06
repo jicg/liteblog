@@ -10,6 +10,7 @@ import (
 	"os"
 	"github.com/astaxie/beego/logs"
 	"fmt"
+	"encoding/json"
 )
 
 func main() {
@@ -46,6 +47,16 @@ func initTemplate() {
 		s1 := fmt.Sprintf("%v", x)
 		s2 := fmt.Sprintf("%v", y)
 		return strings.Compare(s1, s2) == 0
+	})
+	beego.AddFuncMap("add", func(x, y int) int {
+		return x + y
+	})
+	beego.AddFuncMap("json", func(obj interface{}) string {
+		bs, err := json.Marshal(obj)
+		if err != nil {
+			return "{id:0}"
+		}
+		return string(bs)
 	})
 
 }

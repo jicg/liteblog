@@ -11,4 +11,5 @@
     layui.config({
         base: '/static/js/'
     }).use('blog');
+    {{ if .IsLogin}}var user = {{ .User }};{{else}}var user = {id: 0, name: "游客", email: "guest@liteblog.com", role: 1};{{end}}
 </script>
