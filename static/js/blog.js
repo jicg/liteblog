@@ -48,11 +48,12 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
                         var htmlstr = "";
 
                         for (var i = 0; i < ret.data.length; i++) {
+                            var $p=$("<p></p>");$p.text(ret.data[i].content);
                             var data = {
                                 username: ret.data[i].user.name
                                 , avatar: ret.data[i].user.avatar || '/static/images/info-img.png'
                                 , praise: ret.data[i].praise
-                                , content: ret.data[i].content
+                                , content: $p.html()
                                 , key: ret.data.key
                             };
 
