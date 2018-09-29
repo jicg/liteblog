@@ -188,19 +188,20 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
         }
         sysn.post("/message/new", {content: content})
             .success(function (ret) {
+                var $p=$("<p></p>");$p.text(ret.data.content);
                 var view = $('#LAY-msg-tpl').html()
                     , data = {
                     username: ret.data.user.name
                     , avatar: ret.data.user.avatar || '/static/images/info-img.png'
                     , praise: ret.data.praise
-                    , content: ret.data.content
+                    , content: $p.html()
                     , key: ret.data.key
                 };
 
                 //模板渲染
                 laytpl(view).render(data, function (html) {
                     var $html = $(html);
-                    $html.find(".like").on('click', praise)
+                    $html.find(".like").on('click', praise);
                     $('#LAY-msg-box').prepend($html);
                     elemCont.val('');
                     layer.msg('留言成功', {

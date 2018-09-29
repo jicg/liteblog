@@ -16,13 +16,7 @@
             </h4>
         {{range .notes}}
             <div class="item">
-                <div class="item-box  layer-photos-demo1 layer-photos-demo">
-                    <h3><a href="/details/{{.Key}}">{{.Title}}</a></h3>
-                    <h5>发布于：<span>{{date .UpdatedAt "Y-m-d H:i:s"}}</span></h5>
-                    <p>
-                    {{str2html .Summary}}
-                    </p>
-                </div>
+                {{template "comm/note_summary_tpl.html" .}}
                 <div class="comment count">
                     <a href="/details/{{.Key}}#comment">评论</a>
                     <a href="javascript:;" class="like" data-key="{{.Key}}" data-type="note">点赞</a>
