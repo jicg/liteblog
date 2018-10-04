@@ -27,8 +27,8 @@
                 </li>
             </ul>
         {{/*{{if .IsLogin}} # {{else}} /user {{end}}*/}}
-            <a href="/user" class="personal pull-left">
-                <i class="layui-icon {{if .IsLogin}}  {{else}} layui-icon-username {{end}} ">{{.User.Name}}</i>
+            <a href="/user" style="color:#fff;max-width: 120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" class="personal pull-left">
+                <span><i style="color: #fff;" class="layui-icon {{if .IsLogin}}  {{else}} layui-icon-username {{end}} ">{{.User.Name}}</i></span>
 
             </a>
         </div>
@@ -45,8 +45,13 @@
         <li>
             <a href="https://github.com/jicg/liteblog" target="_blank">Github</a>
         </li>
-        <li><a href="/user"><i class="layui-icon {{if .IsLogin}}  {{else}} layui-icon-username {{end}} "
-                               style="font-size: 20px;font-style: normal;font-weight:bold;">{{if .User.Name}}{{.User.Name}}{{else}}
-            登陆{{end}}</i></a></li>
+        <li>
+            <a href="/user">
+                <i class="layui-icon {{if .IsLogin}}  {{else}} layui-icon-username {{end}} "
+                                   style="font-size: 20px;font-style: normal;font-weight:bold;">
+                {{if .User.Name}}{{.User.Name}}{{else}}登陆{{end}}
+                </i>
+            </a>
+        </li>
     </ul>
 </div>

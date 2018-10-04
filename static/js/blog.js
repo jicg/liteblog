@@ -13,7 +13,10 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
         , $ = layui.jquery
         , laytpl = layui.laytpl
         , sysn = layui.sysn;
-
+    function toText(str) {
+        var $p=$("<p></p>");$p.text(str);
+        return $p.html()
+    }
 
     //statr 分页
     if ($("#test1").size() > 0) {
@@ -50,10 +53,10 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
                         for (var i = 0; i < ret.data.length; i++) {
                             var $p=$("<p></p>");$p.text(ret.data[i].content);
                             var data = {
-                                username: ret.data[i].user.name
+                                username: toText(ret.data[i].user.name)
                                 , avatar: ret.data[i].user.avatar || '/static/images/info-img.png'
                                 , praise: ret.data[i].praise
-                                , content: $p.html()
+                                , content: toText(ret.data[i].content)
                                 , key: ret.data.key
                             };
 
@@ -188,13 +191,12 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
         }
         sysn.post("/message/new", {content: content})
             .success(function (ret) {
-                var $p=$("<p></p>");$p.text(ret.data.content);
                 var view = $('#LAY-msg-tpl').html()
                     , data = {
-                    username: ret.data.user.name
+                    username: toText(ret.data.user.name)
                     , avatar: ret.data.user.avatar || '/static/images/info-img.png'
                     , praise: ret.data.praise
-                    , content: $p.html()
+                    , content: toText(ret.data.content)
                     , key: ret.data.key
                 };
 
