@@ -14,7 +14,6 @@ COPY --from=0 /go/src/github.com/jicg/liteblog/static /app/static
 COPY --from=0 /go/src/github.com/jicg/liteblog/conf /app/conf
 
 VOLUME /app/data
-VOLUME /app/conf
 VOLUME /app/assert
 
 EXPOSE 8080
