@@ -3,9 +3,11 @@ package models
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"os"
 	"github.com/astaxie/beego/logs"
 	"time"
+	"github.com/astaxie/beego"
 )
 
 type DB struct {
@@ -38,9 +40,8 @@ func init() {
 	if err = os.MkdirAll("data", 0777); err != nil {
 		panic("failed to connect database," + err.Error())
 	}
-	db, err = gorm.Open("sqlite3", "data/data.db")
-	if err != nil {
-		panic("failed to connect database")
+	if err = initDB(); err != nil {
+		panic("failed to connect database," + err.Error())
 	}
 	// 自动同步表结构
 	db.SetLogger(logs.GetLogger("orm"))
@@ -60,6 +61,28 @@ func init() {
 			Role: 0,
 		})
 	}
+}
+
+func initDB() error {
+	var err error
+	dbconf, err := beego.AppConfig.GetSection("database");
+	if err != nil {
+		logs.Error(err)
+		dbconf = map[string]string{
+			"type": "sqlite3",
+		}
+	}
+	switch dbconf["type"] {
+	case "mysql":
+		db, err = gorm.Open("mysql", dbconf["url"])
+	default:
+		db, err = gorm.Open("sqlite3", "data/data.db")
+
+	}
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 type Model struct {
