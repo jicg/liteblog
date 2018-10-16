@@ -13,7 +13,7 @@ type Message struct {
 }
 
 func (db *DB) QueryMessageByKey(key string) (message Message, err error) {
-	return message, db.db.Model(&Message{}).Where("key = ? ", key).Take(&message).Error
+	return message, db.db.Model(&Message{}).Where("`key` = ? ", key).Take(&message).Error
 }
 
 //func (db *DB) QueryMessageForAdmin() (messages []*Message, err error) {

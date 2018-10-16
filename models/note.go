@@ -19,19 +19,19 @@ type Note struct {
 }
 
 func (db *DB) QueryNoteByKeyAndUserId(key string, userid int) (note Note, err error) {
-	return note, db.db.Model(&Note{}).Where("key = ? and user_id = ?", key, userid).Take(&note).Error
+	return note, db.db.Model(&Note{}).Where("`key` = ? and user_id = ?", key, userid).Take(&note).Error
 }
 
 func (db *DB) QueryNoteByKey(key string) (note Note, err error) {
-	return note, db.db.Model(&Note{}).Where("key = ? ", key).Take(&note).Error
+	return note, db.db.Model(&Note{}).Where("`key` = ? ", key).Take(&note).Error
 }
 
 func (db *DB) AllVisitCount(key string) error {
-	return db.db.Model(&Note{}).Where("key = ?", key).UpdateColumn("visit", gorm.Expr("visit + 1")).Error
+	return db.db.Model(&Note{}).Where("'key' = ?", key).UpdateColumn("visit", gorm.Expr("visit + 1")).Error
 }
 
 func (db *DB) DelNoteByKey(key string, userid int) (error) {
-	return db.db.Delete(Note{}, "key = ? and user_id = ? ", key, userid).Error
+	return db.db.Delete(Note{}, "`key` = ? and user_id = ? ", key, userid).Error
 }
 func (db *DB) QueryNotesByPage(page, limit int, title string) (note []*Note, err error) {
 	return note, db.db.Model(&Note{}).Where("title like ?", fmt.Sprintf("%%%s%%", title)).Offset((page - 1) * limit).Limit(limit).Order("updated_at DESC").Find(&note).Error
