@@ -90,8 +90,9 @@ func getSummary(content string) (string, error) {
 		return "", err
 	}
 	str := doc.Find("body").Text()
-	if len(str) > 600 {
-		str = str[:600] + "..."
+	strRune := []rune(str)
+	if len(strRune) > 400 {
+		strRune = strRune[:400]
 	}
-	return str, nil
+	return string(strRune) + "...", nil
 }
