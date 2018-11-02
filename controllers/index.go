@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/jicg/liteblog/syserrors"
 	"fmt"
+	"errors"
 )
 
 type IndexController struct {
@@ -17,7 +18,14 @@ func (c *IndexController) Get() {
 		page = 1;
 	}
 	title := c.GetString("title", "")
-	if ns, _ := c.Dao.QueryNotesByPage(page, limit, title); ns != nil {
+	if c.Dao==nil{
+		c.Abort500(errors.New("数据库初始化失败！"))
+	}
+	ns, err := c.Dao.QueryNotesByPage(page, limit, title)
+	if err != nil {
+		c.Abort500(err)
+	}
+	if ns != nil {
 		c.Data["notes"] = ns
 	}
 	var totpage int = 0;

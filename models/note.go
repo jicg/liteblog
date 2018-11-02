@@ -27,7 +27,7 @@ func (db *DB) QueryNoteByKey(key string) (note Note, err error) {
 }
 
 func (db *DB) AllVisitCount(key string) error {
-	return db.db.Model(&Note{}).Where("'key' = ?", key).UpdateColumn("visit", gorm.Expr("visit + 1")).Error
+	return db.db.Model(&Note{}).Where("`key` = ?", key).UpdateColumn("visit", gorm.Expr("visit + 1")).Error
 }
 
 func (db *DB) DelNoteByKey(key string, userid int) (error) {
