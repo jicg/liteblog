@@ -57,7 +57,7 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
                                 , avatar: ret.data[i].user.avatar || '/static/images/info-img.png'
                                 , praise: ret.data[i].praise
                                 , content: toText(ret.data[i].content)
-                                , key: ret.data.key
+                                , key: ret.data[i].key
                             };
 
                             //模板渲染
