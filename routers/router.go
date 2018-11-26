@@ -10,6 +10,7 @@ func init() {
 	beego.Include(
 		&controllers.IndexController{},
 		&controllers.UserController{},
+
 	)
 	beego.AddNamespace(
 		beego.NewNamespace(

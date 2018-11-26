@@ -13,6 +13,8 @@ type Note struct {
 	Title   string
 	Summary string `gorm:"type:text"`
 	Content string `gorm:"type:text"`
+	Source  string `gorm:"text" json:"source"`
+	Editor  string `gorm:"varchar(40)'" `
 	Files   string `gorm:"type:text"`
 	Visit   int    `gorm:"default:0"`
 	Praise  int    `gorm:"default:0"`

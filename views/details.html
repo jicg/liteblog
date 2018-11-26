@@ -5,6 +5,9 @@
     <title>评论-闲言轻博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 {{template "comm/link.html"}}
+ {{if eq .note.Editor "markdown"}}
+        <link rel="stylesheet" href="/static/lib/editormd/css/editormd.min.css">
+ {{end}}
 </head>
 <body class="lay-blog">
 {{template "comm/header.html".}}
@@ -15,7 +18,7 @@
                 <div class="item-box  layer-photos-demo1 layer-photos-demo">
                     <h3><a href="#">{{.note.Title}}</a></h3>
                     <h5>发布于：<span>{{date .note.UpdatedAt "Y-m-d H:i:s"}}</span></h5>
-                    <div class="body" style="overflow-y: auto">
+                    <div class="body {{if eq .note.Editor "markdown"}} markdown-body editormd-preview-container {{end}}" style="overflow-y: auto">
                     {{str2html .note.Content}}
                     </div>
                 {{/*<img src="../res/static/images/item.png" alt="">*/}}

@@ -7,6 +7,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/PuerkitoBio/goquery"
 	"bytes"
+	"strings"
 )
 
 type NoteController struct {
@@ -23,6 +24,10 @@ func (ctx *NoteController) NestPrepare() {
 // @router /new [get]
 func (ctx *NoteController) NewPage() {
 	ctx.Data["key"] = ctx.UUID()
+	if  strings.EqualFold(ctx.User.Editor,"markdown"){
+		ctx.TplName = "note_new2.html"
+		return
+	}
 	ctx.TplName = "note_new.html"
 }
 
@@ -35,6 +40,10 @@ func (ctx *NoteController) EditPage() {
 	}
 	ctx.Data["note"] = note
 	ctx.Data["key"] = key
+	if strings.EqualFold(note.Editor,"markdown"){
+		ctx.TplName = "note_new2.html"
+		return
+	}
 	ctx.TplName = "note_new.html"
 }
 
@@ -50,6 +59,7 @@ func (ctx *NoteController) Del() {
 // @router /save/:key [post]
 func (ctx *NoteController) Save() {
 	key := ctx.Ctx.Input.Param(":key")
+	editor := ctx.GetString("editor","default");
 	title := ctx.GetMustString("title", "标题不能为空！")
 	content := ctx.GetMustString("content", "内容不能为空！")
 	files := ctx.GetString("files", "")
@@ -76,6 +86,11 @@ func (ctx *NoteController) Save() {
 		n.Files = files
 		n.UpdatedAt = time.Now()
 	}
+	n.Editor = editor
+	if strings.EqualFold(editor,"markdown"){
+		n.Source = ctx.GetMustString("source","内容不能为空！")
+	}
+
 	if err := ctx.Dao.SaveNote(&n); err != nil {
 		ctx.Abort500(syserrors.NewError("保存失败！", err))
 	}

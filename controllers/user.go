@@ -60,3 +60,21 @@ func (c *UserController) Logout() {
 	c.DelSession(SESSION_USER_KEY)
 	c.Redirect("/", 302)
 }
+
+// @router /setting/editor [post]
+func (c *UserController) Editor() {
+	editor:=c.GetMustString("editor","default")
+	if !strings.EqualFold(editor,"markdown"){
+		editor="default"
+	}
+
+	if err :=c.Dao.UpdateUserEditor(editor);err!= nil{
+		c.Abort500(err)
+		return
+	}
+	c.User.Editor=editor
+	c.SetSession(SESSION_USER_KEY,c.User)
+	c.JSONOkH("更新成功",H{
+		"editor":editor,
+	});
+}
