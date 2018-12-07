@@ -4,10 +4,19 @@ import (
 	"github.com/jicg/liteblog/syserrors"
 	"fmt"
 	"errors"
+	"time"
 )
 
 type IndexController struct {
 	BaseController
+}
+
+
+// @router /appinfo [get]
+func (c *IndexController) Info() {
+	c.JSONOkH("ok",H{
+		"time":time.Now().Format("2006-01-02 15:04:05"),
+	})
 }
 
 // @router / [get]
