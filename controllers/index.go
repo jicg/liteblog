@@ -14,8 +14,14 @@ type IndexController struct {
 
 // @router /appinfo [get]
 func (c *IndexController) Info() {
+	db_t:=c.Dao.GetDBTime()
+	var db_ts =""
+	if db_t!=nil{
+		db_ts=db_t.Format("2006-01-02 15:04:05")
+	}
 	c.JSONOkH("ok",H{
-		"time":time.Now().Format("2006-01-02 15:04:05"),
+		"app_time":time.Now().Format("2006-01-02 15:04:05"),
+		"db_time":db_ts,
 	})
 }
 

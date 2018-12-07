@@ -91,3 +91,14 @@ type Model struct {
 	UpdatedAt time.Time  `json:"updatetime"`
 	DeletedAt *time.Time `sql:"index" json:"-"`
 }
+
+func (db *DB) GetDBTime() *time.Time {
+	var t *time.Time
+	row, err := db.db.DB().Query("select NOW()")
+	if err != nil {
+		logs.Error(err)
+		return nil
+	}
+	row.Scan(t)
+	return t
+}
