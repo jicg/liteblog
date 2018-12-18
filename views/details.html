@@ -2,14 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>评论-闲言轻博客</title>
+    <title>{{.note.Title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 {{template "comm/link.html"}}
  {{if eq .note.Editor "markdown"}}
         <link rel="stylesheet" href="/static/lib/editormd/css/editormd.min.css">
  {{end}}
 </head>
+
 <body class="lay-blog">
+{{if .note.User.Avatar}}
+<image style="display: none;" src="{{.note.User.Avatar}}"></image>
+        {{else}}
+<image style="display: none;" src="/static/images/info-img.png"></image>
+ {{end}}
 {{template "comm/header.html".}}
 <div class="container-wrap">
     <div class="container container-message container-details">
