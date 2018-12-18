@@ -211,8 +211,6 @@ layui.define(['element', 'form', 'laypage', 'jquery', 'laytpl', 'sysn'], functio
                     })
                 });
             }).run();
-
-
     });
 
     // start  图片遮罩

@@ -103,8 +103,9 @@
         var E = window.wangEditor;
         var editor = new E('#edit');
         // 或者 var editor = new E( document.getElementById('editor') )
-        editor.customConfig.uploadImgShowBase64 = true;
-        // editor.customConfig.uploadImgServer = '/froala/uploadimg';
+        //editor.customConfig.uploadImgShowBase64 = true;
+        editor.customConfig.uploadImgServer = '/upload/wangeditorfiles/';
+        editor.customConfig.uploadFileName='files';
         editor.customConfig.pasteFilterStyle = false;
         editor.customConfig.zIndex = 1;
         editor.create();

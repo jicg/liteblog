@@ -10,6 +10,7 @@ import (
 	"mime/multipart"
 	"io/ioutil"
 	"encoding/json"
+	"io"
 )
 
 type UploadController struct {
@@ -51,7 +52,7 @@ func (ctx *UploadController) NestPrepare() {
 
 //图片上传
 // @router /uploadimg [post]
-func (c *UploadController) UploadImg(){
+func (c *UploadController) UploadImg() {
 
 	_, h, err := c.GetFile("file")
 	if err != nil {
@@ -107,4 +108,56 @@ func (c *UploadController) UploadFile() {
 	} else {
 		c.Abort500(syserrors.NewError("上传失败", nil))
 	}
+}
+
+//@router /wangeditorfiles [post]
+func (c *UploadController) WangeditorUploadFile() {
+	hs, err := c.GetFiles("files")
+	if err != nil {
+		c.JSONOkH("", H{
+			"errno": -1,
+			"msg":   "上传失败：" + err.Error(),
+		})
+		return
+	}
+	var len= len(hs)
+	paths := make([]string, len)
+	for index, h := range hs {
+		fileSuffix := path.Ext(h.Filename)
+		newname := strconv.FormatInt(time.Now().UnixNano(), 10) + fileSuffix
+		//保存附件
+		path := c.FilesFilePath + newname
+		err = saveFile(h, path) //.Join("attachment", attachment)) //存文件    WaterMark(path)    //给文件加水印
+		if err != nil {
+			c.JSONOkH("", H{
+				"errno": -1,
+				"msg":   "上传失败：" + err.Error(),
+			})
+		}
+		go saveFileinfo(path, h)
+		paths[index] = "/" + path
+	}
+	c.JSONOkH("", H{
+		"errno": 0,
+		"data":  paths,
+	})
+}
+
+func saveFile(f *multipart.FileHeader,path string) error {
+	file, err := f.Open()
+	defer file.Close()
+	if err != nil {
+		return err
+	}
+	//create destination file making sure the path is writeable.
+	dst, err := os.Create(path)
+	defer dst.Close()
+	if err != nil {
+		return err
+	}
+	//copy the uploaded file to the destination file
+	if _, err := io.Copy(dst, file); err != nil {
+		return err
+	}
+	return nil
 }

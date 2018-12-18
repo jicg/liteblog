@@ -151,6 +151,14 @@ func init() {
 			MethodParams: param.Make(),
 			Params: nil})
 
+	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:UploadController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:UploadController"],
+		beego.ControllerComments{
+			Method: "WangeditorUploadFile",
+			Router: `/wangeditorfiles`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
 	beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:UserController"] = append(beego.GlobalControllerRouter["github.com/jicg/liteblog/controllers:UserController"],
 		beego.ControllerComments{
 			Method: "Login",
