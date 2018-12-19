@@ -11,7 +11,7 @@ type PraiseLog struct {
 
 
 func (db *DB) UpdateNote4Praise(n *Note) error {
-	return db.db.Model(&Note{}).UpdateColumn("praise", n.Praise).Error
+	return db.db.Model(&Note{}).Where("id = ?",n.ID).UpdateColumn("praise", n.Praise).Error
 }
 
 //

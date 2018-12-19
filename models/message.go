@@ -37,5 +37,5 @@ func (db *DB) SaveMessage(n *Message) error {
 }
 
 func (db *DB) UpdateMessage4Praise(n *Message) error {
-	return db.db.Model(&Message{}).UpdateColumn("praise", n.Praise).Error
+	return db.db.Model(&Message{}).Where("id = ?",n.ID).UpdateColumn("praise", n.Praise).Error
 }
