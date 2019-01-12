@@ -1,25 +1,25 @@
-FROM golang:latest
-MAINTAINER <284077318@qq.com>
-COPY . $GOPATH/src/github.com/jicg/liteblog
+FROM golang:latest as builder
+MAINTAINER <284077319@qq.com>
 WORKDIR $GOPATH/src/github.com/jicg/liteblog
-RUN go get  github.com/jicg/liteblog
-RUN go install -a github.com/jicg/liteblog
+COPY . .
+RUN go get
+RUN go install -a -ldflags="-w -s"
 
-FROM debian:latest
-MAINTAINER <284077318@qq.com>
-COPY --from=0 /go/bin/liteblog /usr/bin/liteblog
-COPY --from=0 /go/src/github.com/jicg/liteblog/start.sh /app/start.sh
-COPY --from=0 /go/src/github.com/jicg/liteblog/views /app/views
-COPY --from=0 /go/src/github.com/jicg/liteblog/static /app/static
-COPY --from=0 /go/src/github.com/jicg/liteblog/conf /app/conf
+FROM scratch as final
+MAINTAINER <284077319@qq.com>
+WORKDIR /app
+COPY --from=builder /go/bin/liteblog liteblog
+COPY --from=builder start.sh start.sh
+COPY --from=builder views views
+COPY --from=builder static static
+COPY --from=builder conf conf
 
 VOLUME /app/data
 VOLUME /app/assert
-
 EXPOSE 8080
-WORKDIR /app
 
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-&& echo 'Asia/Shanghai' >/etc/timezone \
-&& chmod +x start.sh
+#RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+#&& echo 'Asia/Shanghai' >/etc/timezone \
+#&& chmod +x start.sh
+RUN chmod +x start.sh
 CMD ["./start.sh"]
