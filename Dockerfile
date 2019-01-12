@@ -24,6 +24,6 @@ WORKDIR /app
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 && echo 'Asia/Shanghai' >/etc/timezone \
 #&& chmod +x start.sh
-#RUN chmod +x liteblog
+&& chmod +x liteblog
 ENTRYPOINT ["/app/liteblog"]
 CMD []
