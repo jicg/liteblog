@@ -8,11 +8,10 @@ RUN go install -a -ldflags="-w -s"
 FROM scratch as final
 MAINTAINER <284077319@qq.com>
 WORKDIR /app
-COPY --from=builder /go/bin/liteblog liteblog
-COPY --from=builder start.sh start.sh
-COPY --from=builder views views
-COPY --from=builder static static
-COPY --from=builder conf conf
+COPY --from=builder go/bin/liteblog liteblog
+COPY --from=builder go/src/github.com/jicg/liteblog/views views
+COPY --from=builder go/src/github.com/jicg/liteblog/static static
+COPY --from=builder go/src/github.com/jicg/liteblog/conf conf
 
 VOLUME /app/data
 VOLUME /app/assert
@@ -21,5 +20,4 @@ EXPOSE 8080
 #RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #&& echo 'Asia/Shanghai' >/etc/timezone \
 #&& chmod +x start.sh
-RUN chmod +x start.sh
-CMD ["./start.sh"]
+CMD ["./liteblog"]
