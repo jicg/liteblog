@@ -88,6 +88,11 @@ func (c *IndexController) GetComment() {
 	c.TplName = "comment.html"
 }
 
+// @router /setting [get]
+func (c *IndexController) GetSetting() {
+	c.TplName = "setting.html"
+}
+
 // @router /user [get]
 func (c *IndexController) GetUser() {
 	c.TplName = "user.html"
