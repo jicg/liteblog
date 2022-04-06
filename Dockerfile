@@ -1,11 +1,11 @@
 FROM golang:latest as builder
 MAINTAINER <284077319@qq.com>
 WORKDIR /go/src/github.com/jicg/liteblog
-RUN go get github.com/tools/godep
+ENV GOPROXY=https://goproxy.cn
 COPY . .
 #ENV CGO_ENABLED=0
 #RUN godep go build -installsuffix cgo -ldflags="-w -s"
-RUN godep go build  -ldflags="-w -s"
+RUN go get && go build  -ldflags="-w -s"
 
 #FROM scratch as final
 FROM alpine as final

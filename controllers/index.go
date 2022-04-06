@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/jicg/liteblog/syserrors"
-	"fmt"
 	"errors"
+	"fmt"
+	"github.com/jicg/liteblog/syserrors"
 	"time"
 )
 
@@ -11,29 +11,28 @@ type IndexController struct {
 	BaseController
 }
 
-
 // @router /appinfo [get]
 func (c *IndexController) Info() {
-	db_t:=c.Dao.GetDBTime()
-	var db_ts =""
-	if db_t!=nil{
-		db_ts=db_t.Format("2006-01-02 15:04:05")
+	db_t := c.Dao.GetDBTime()
+	var db_ts = ""
+	if db_t != nil {
+		db_ts = db_t.Format("2006-01-02 15:04:05")
 	}
-	c.JSONOkH("ok",H{
-		"app_time":time.Now().Format("2006-01-02 15:04:05"),
-		"db_time":db_ts,
+	c.JSONOkH("ok", H{
+		"app_time": time.Now().Format("2006-01-02 15:04:05"),
+		"db_time":  db_ts,
 	})
 }
 
 // @router / [get]
 func (c *IndexController) Get() {
-	limit := 10;
+	limit := 10
 	page, err := c.GetInt("page", 1)
 	if err != nil || page < 1 {
-		page = 1;
+		page = 1
 	}
 	title := c.GetString("title", "")
-	if c.Dao==nil{
+	if c.Dao == nil {
 		c.Abort500(errors.New("数据库初始化失败！"))
 	}
 	ns, err := c.Dao.QueryNotesByPage(page, limit, title)
@@ -43,7 +42,7 @@ func (c *IndexController) Get() {
 	if ns != nil {
 		c.Data["notes"] = ns
 	}
-	var totpage int = 0;
+	var totpage int = 0
 	totcnt, _ := c.Dao.QueryNotesCount(title)
 	if totcnt%limit == 0 {
 		totpage = totcnt / limit

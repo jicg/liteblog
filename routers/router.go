@@ -1,33 +1,32 @@
 package routers
 
 import (
+	"github.com/beego/beego/v2/server/web"
 	"github.com/jicg/liteblog/controllers"
-	"github.com/astaxie/beego"
 )
 
 func init() {
-	beego.ErrorController(&controllers.ErrorController{})
-	beego.Include(
+	web.ErrorController(&controllers.ErrorController{})
+	web.Include(
 		&controllers.IndexController{},
 		&controllers.UserController{},
-
 	)
-	beego.AddNamespace(
-		beego.NewNamespace(
+	web.AddNamespace(
+		web.NewNamespace(
 			"note",
-			beego.NSInclude(&controllers.NoteController{}),
+			web.NSInclude(&controllers.NoteController{}),
 		),
-		beego.NewNamespace(
+		web.NewNamespace(
 			"upload",
-			beego.NSInclude(&controllers.UploadController{}),
+			web.NSInclude(&controllers.UploadController{}),
 		),
-		beego.NewNamespace(
+		web.NewNamespace(
 			"praise",
-			beego.NSInclude(&controllers.PraiseController{}),
+			web.NSInclude(&controllers.PraiseController{}),
 		),
-		beego.NewNamespace(
+		web.NewNamespace(
 			"message",
-			beego.NSInclude(&controllers.MessageController{}),
+			web.NSInclude(&controllers.MessageController{}),
 		),
 	)
 }

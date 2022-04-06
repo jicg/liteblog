@@ -1,19 +1,22 @@
 package main
 
 import (
-	_ "github.com/jicg/liteblog/routers"
-	_ "github.com/jicg/liteblog/models"
-	"github.com/astaxie/beego"
-	"strings"
 	"encoding/gob"
-	"github.com/jicg/liteblog/models"
-	"os"
-	"github.com/astaxie/beego/logs"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
+	"github.com/jicg/liteblog/models"
+	_ "github.com/jicg/liteblog/models"
+	_ "github.com/jicg/liteblog/routers"
+	"os"
+	"strings"
 )
 
+//go:generate bee generate routers -ctrlDir=controllers -routersFile=mygen.go -routersPkg="controllers"
+
 func main() {
+	beego.BConfig.WebConfig.CommentRouterPath = "./controllers"
 	initLog()
 	initSession()
 	initTemplate()
@@ -21,16 +24,16 @@ func main() {
 }
 func initLog() {
 	if err := os.MkdirAll("data/logs", 0777); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		return
 	}
-	logs.SetLogger("file", `{"filename":"data/logs/lyblog.log","level":7,"maxlines":0,"maxsize":0,"daily":true,"maxdays":10}`)
+	logs.SetLogger("file", `{"filename":"data/logs/lyblog.log","level":7,"maxlines":1000,"maxsize":100,"daily":true,"maxdays":10}`)
 	logs.Async(1e3)
 }
 
 func initSession() {
 	gob.Register(models.User{})
-	//https://beego.me/docs/mvc/controller/session.md
+	//https://beego.vip/docs/mvc/controller/session.md
 	beego.SetStaticPath("assert", "assert")
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	beego.BConfig.WebConfig.Session.SessionName = "liteblog-key"

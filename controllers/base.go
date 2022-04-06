@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/jicg/liteblog/models"
 	"errors"
+	"github.com/beego/beego/v2/server/web"
+	"github.com/jicg/liteblog/models"
 	"github.com/jicg/liteblog/syserrors"
 	"github.com/satori/go.uuid"
 )
@@ -14,7 +14,7 @@ type NestPreparer interface {
 	NestPrepare()
 }
 type BaseController struct {
-	beego.Controller
+	web.Controller
 	IsLogin bool
 	User    models.User
 	Dao     *models.DB
@@ -25,10 +25,13 @@ func (ctx *BaseController) Prepare() {
 	ctx.Dao = models.NewDB()
 	// 验证用户是否登陆
 	ctx.IsLogin = false
-	if u, ok := ctx.GetSession(SESSION_USER_KEY).(models.User); ok {
-		ctx.User = u
-		ctx.Data["User"] = u
-		ctx.IsLogin = true
+	var tu = ctx.GetSession(SESSION_USER_KEY)
+	if tu != nil {
+		if u, ok := tu.(models.User); ok {
+			ctx.User = u
+			ctx.Data["User"] = u
+			ctx.IsLogin = true
+		}
 	}
 	ctx.Data["IsLogin"] = ctx.IsLogin
 	//判断子controller是否实现接口 NestPreparer
@@ -100,9 +103,9 @@ func (ctx *BaseController) JSONOkData(count int, data interface{}) {
 }
 
 func (this *BaseController) UUID() string {
-	u,err:=uuid.NewV4()
-	if err!=nil{
-		this.Abort500(syserrors.NewError("系统错误",err))
+	u, err := uuid.NewV4()
+	if err != nil {
+		this.Abort500(syserrors.NewError("系统错误", err))
 	}
 	return u.String()
 }

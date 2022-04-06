@@ -1,16 +1,16 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
+	"encoding/json"
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/jicg/liteblog/syserrors"
+	"io"
+	"io/ioutil"
+	"mime/multipart"
 	"os"
 	"path"
 	"strconv"
 	"time"
-	"github.com/jicg/liteblog/syserrors"
-	"mime/multipart"
-	"io/ioutil"
-	"encoding/json"
-	"io"
 )
 
 type UploadController struct {
@@ -34,19 +34,20 @@ const (
 )
 
 func (ctx *UploadController) NestPrepare() {
+
 	ctx.MustLogin()
 	year, month, _ := time.Now().Date()
 	ctx.ImagesFilePath = PATH_IMAGE + "/" + strconv.Itoa(year) + month.String() + "/"
 	if err := os.MkdirAll(ctx.ImagesFilePath, 0777); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	}
 	ctx.VideosFilePath = PATH_VIDEO + "/" + strconv.Itoa(year) + month.String() + "/"
 	if err := os.MkdirAll(ctx.VideosFilePath, 0777); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	}
 	ctx.FilesFilePath = PATH_FILE + "/" + strconv.Itoa(year) + month.String() + "/"
 	if err := os.MkdirAll(ctx.FilesFilePath, 0777); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	}
 }
 
@@ -120,7 +121,7 @@ func (c *UploadController) WangeditorUploadFile() {
 		})
 		return
 	}
-	var len= len(hs)
+	var len = len(hs)
 	paths := make([]string, len)
 	for index, h := range hs {
 		fileSuffix := path.Ext(h.Filename)
@@ -143,7 +144,7 @@ func (c *UploadController) WangeditorUploadFile() {
 	})
 }
 
-func saveFile(f *multipart.FileHeader,path string) error {
+func saveFile(f *multipart.FileHeader, path string) error {
 	file, err := f.Open()
 	defer file.Close()
 	if err != nil {

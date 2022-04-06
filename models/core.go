@@ -1,13 +1,13 @@
 package models
 
 import (
+	"github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"os"
-	"github.com/astaxie/beego/logs"
 	"time"
-	"github.com/astaxie/beego"
 )
 
 type DB struct {
@@ -65,7 +65,7 @@ func init() {
 
 func initDB() error {
 	var err error
-	dbconf, err := beego.AppConfig.GetSection("database");
+	dbconf, err := beego.AppConfig.GetSection("database")
 	if err != nil {
 		logs.Error(err)
 		dbconf = map[string]string{

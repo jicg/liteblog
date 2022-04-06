@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/jicg/liteblog/syserrors"
-	"github.com/astaxie/beego/logs"
 )
 
 type ErrorController struct {
@@ -12,7 +12,7 @@ type ErrorController struct {
 
 func (c *ErrorController) Error404() {
 	c.TplName = "error/404.html"
-	if (c.IsAjax()) {
+	if c.IsAjax() {
 		c.jsonerror(syserrors.Error404{})
 	} else {
 		c.Data["content"] = "非法访问"
@@ -22,7 +22,7 @@ func (c *ErrorController) Error404() {
 func (c *ErrorController) Error500() {
 	c.TplName = "error/500.html"
 	// 获取c.Data["error"] 错误，默认为 UnKnowError
-	var derr error;
+	var derr error
 	err, ok := c.Data["error"].(error)
 	if ok {
 		derr = err
@@ -41,7 +41,7 @@ func (c *ErrorController) Error500() {
 		logs.Error(dserr.Error(), err)
 	}
 	//输出
-	if (c.IsAjax()) {
+	if c.IsAjax() {
 		c.jsonerror(dserr)
 	} else {
 		c.Data["content"] = fmt.Sprintf("错误：%s", dserr.Error())

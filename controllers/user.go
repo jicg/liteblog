@@ -1,10 +1,10 @@
 package controllers
 
 import (
+	"errors"
 	"github.com/jicg/liteblog/models"
 	"github.com/jicg/liteblog/syserrors"
 	"strings"
-	"errors"
 )
 
 type UserController struct {
@@ -35,7 +35,7 @@ func (c *UserController) Reg() {
 	if strings.Compare(pwd1, pwd2) != 0 {
 		c.Abort500(errors.New("密码与确认密码 必须要一致！"))
 	}
-	if u, err := c.Dao.QueryUserByName(name); err == nil &&  u.ID != 0 {
+	if u, err := c.Dao.QueryUserByName(name); err == nil && u.ID != 0 {
 		c.Abort500(syserrors.NewError("用户昵称已经存在!", err))
 	}
 	if u, err := c.Dao.QueryUserByEmail(email); err == nil && u.ID != 0 {
@@ -63,18 +63,18 @@ func (c *UserController) Logout() {
 
 // @router /setting/editor [post]
 func (c *UserController) Editor() {
-	editor:=c.GetMustString("editor","default")
-	if !strings.EqualFold(editor,"markdown"){
-		editor="default"
+	editor := c.GetMustString("editor", "default")
+	if !strings.EqualFold(editor, "markdown") {
+		editor = "default"
 	}
 
-	if err :=c.Dao.UpdateUserEditor(editor);err!= nil{
+	if err := c.Dao.UpdateUserEditor(editor); err != nil {
 		c.Abort500(err)
 		return
 	}
-	c.User.Editor=editor
-	c.SetSession(SESSION_USER_KEY,c.User)
-	c.JSONOkH("更新成功",H{
-		"editor":editor,
-	});
+	c.User.Editor = editor
+	c.SetSession(SESSION_USER_KEY, c.User)
+	c.JSONOkH("更新成功", H{
+		"editor": editor,
+	})
 }
